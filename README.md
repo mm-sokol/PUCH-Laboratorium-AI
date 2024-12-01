@@ -98,6 +98,8 @@ dotnet new
 ```bash
 dotnet add package Azure.AI.OpenAI
 dotnet add package Microsoft.Extensions.Configuration
+dotnet add package OpenAI-API-dotnet
+
 ```
 
 ### Rezultaty:
