@@ -52,7 +52,7 @@ class Application {
     public async Task run() {
         while (true) {
             Console.Write(this._username + ": ");
-            string userInput = Console.ReadLine();
+            string userInput = Console.ReadLine() ?? string.Empty;
             string[] words = userInput.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
             if (words.Length > 0)

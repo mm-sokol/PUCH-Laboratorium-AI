@@ -8,15 +8,15 @@ namespace AIDotChat
 
 public class OpenAIResponse
 {
-    public Choice[] Choices { get; set; }
+    public required Choice[] Choices { get; set; }
     public class Choice
     {
-        public Message Message { get; set; }
+        public required Message Message { get; set; }
     }
     public class Message
     {
-        public string Role { get; set; }
-        public string Content { get; set; }
+        public required string Role { get; set; }
+        public required string Content { get; set; }
     }
 }
 
@@ -49,26 +49,15 @@ public class OpenAIService {
     // private readonly ChatCompletionsClient _client;
 
     public OpenAIService(IConfiguration configuration) {
-        _apiKey = configuration["OpenAI:ApiKey"];
-        _endpoint = configuration["OpenAI:Endpoint"];
-        _model = configuration["OpenAI:Model"];
+        _apiKey = configuration["OpenAI:ApiKey"] ?? "";
+        _endpoint = configuration["OpenAI:Endpoint"] ?? "";
+        _model = configuration["OpenAI:Model"] ?? "";
 
         _conversationHistory = new List<Tuple<Agent, string>>();
-
-//        _client = new ChatCompletionsClient(
-//            new Uri(_endpoint),
-//            new AzureKeyCredential(System.Environment.GetEnvironmentVariable(_apiKey)),
-//            new ChatCompletionsClientOptions());
-
-//        _client = new OpenAIClient(new Uri(_endpoint), new AzureKeyCredential(_apiKey));
-
         _httpClient = new HttpClient();
-//        _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_apiKey}");
         _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
         _httpClient.DefaultRequestHeaders.Add("api-key", _apiKey);
-        _httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", configuration["Azure:Subscription"]);
-        Console.WriteLine($"Bearer {_apiKey}");
-
+        // _httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", configuration["Azure:Subscription"]);
     }
 
     public string GetModel() {
