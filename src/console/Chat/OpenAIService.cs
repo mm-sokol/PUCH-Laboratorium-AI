@@ -1,26 +1,7 @@
-using Azure.AI.OpenAI;
-using Azure.Core;
-using System;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-
-using OpenAI.Audio;
-using OpenAI.Chat;
-using OpenAI.Images;
-
-using System.ClientModel;
-using System.Reflection.Metadata;
-
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-
-using System;
-using System.Net.Http;
 using System.Net.Http.Json;
-using System.Text;
 using System.Text.Json;
+using Azure.AI.OpenAI;
 
 namespace AIDotChat
 {
@@ -63,8 +44,9 @@ public class OpenAIService {
     private readonly string _endpoint;
     private string _model {get; set;}
     private List<Tuple<Agent, string>> _conversationHistory;
-//    private ChatCompletionsClient _client;
     private HttpClient _httpClient;
+
+    // private readonly ChatCompletionsClient _client;
 
     public OpenAIService(IConfiguration configuration) {
         _apiKey = configuration["OpenAI:ApiKey"];

@@ -91,15 +91,38 @@ Zadanie polega na stworzeniu interfejsu chatbota w C# korzystjącego z API OpenA
 #### 3. Utworzenie aplikacji
 - Utworzenie szkieletu aplikacji konsolowej
 ```bash
-dotnet new 
+dotnet new console -m console
 ```
 
 - Dodanie zależności 
 ```bash
-dotnet add package Azure.AI.OpenAI
 dotnet add package Microsoft.Extensions.Configuration
+dotnet add package Azure.AI.OpenAI
 dotnet add package OpenAI-API-dotnet
-
 ```
 
+- Utworzenie klasy `OpenAIService` <br>
+Klasa ma za zadanie utworzyć klienta http komunikującego się z wybranym modelem w Azure OpenAI. <br>
+Początkowo plan obejmował wykrorzystanie Azure.AI.OpenAI, jendak pakiet nie był rozpoznawany pomimo dodania zależnoścji:
+```bash
+error CS0246: Nie można znaleźć nazwy typu lub przestrzeni nazw „OpenAIClient”
+error CS0246: Nie można znaleźć nazwy typu lub przestrzeni nazw „ChatCompletionsClient”
+```
+Problem został rozwiązany przez utworzenie klienta http:
+```C#
+// plik OpenAIService.cs
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+```
+
+- Dodanie niezbędnych funkcjonalności klasy `OpenAIService`
+Klasa 
+```C#
+    private readonly string _apiKey;
+    private readonly string _endpoint;
+    private string _model {get; set;}
+    private List<Tuple<Agent, string>> _conversationHistory;
+    private HttpClient _httpClient;
+```
 ### Rezultaty:
