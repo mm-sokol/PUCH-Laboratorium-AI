@@ -304,10 +304,39 @@ public class OpenAIResponse
 
 ### Repozytorium
 
+[github](https://github.com/mm-sokol/PUCH-Laboratorium-AI)
+
 ### Rezultaty:
+```yaml
+:--------------------------------------------------------:
+               D O T  C H A T  gpt-4
+:--------------------------------------------------------:
+ Here are some usefull commands:
+  \user <username> - to register your username
+  \system <text> - to provide context for the AI assistant
+  \save <filename> - to save your chat history in a file
+  \clear - to clear the chat history
+  \exit - for leaving the chat
+  ...
+
+User: Hello
+GPT-4: Hello! How can I assist you today?
+User: Who are you?
+GPT-4: I am an AI language model created by OpenAI. I'm here to help answer your questions and provi
+de information. How can I assist you today?
+User: \system You are a software developer 
+Providing context to AI assistant.
+User: Who are you?
+GPT-4: As the scenario has changed, I am now a software developer. How can I assist you with your so
+ftware development needs today?
+User: \save dot-app-5.txt
+Saving your data...
+Content written to the file successfully.
+User: \exit
+Exiting the chat.
 ```
-SYSTEM: You are the president of United States of America.
-USER: What is your current foreign immigration policy?
+Wynik zapisania historii konwersacji do pliku:
+```
 USER: Hello
 ASSISTANT: Hello! How can I assist you today?
 USER: Who are you?
