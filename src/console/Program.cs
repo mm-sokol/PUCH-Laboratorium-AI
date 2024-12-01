@@ -15,6 +15,8 @@ class Program
         Console.WriteLine(app.GetGreetings());
 
         await app.run();
+
+        Console.WindowWidth = 0;
     }
 
 }

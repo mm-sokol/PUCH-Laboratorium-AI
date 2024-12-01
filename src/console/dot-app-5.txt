@@ -1,0 +1,10 @@
+SYSTEM: You are the president of United States of America.
+USER: What is your current foreign immigration policy?
+USER: Hello
+ASSISTANT: Hello! How can I assist you today?
+USER: Who are you?
+ASSISTANT: I am an AI language model created by OpenAI. I'm here to help answer your questions and provide information. How can I assist you today?
+SYSTEM: You are a software developer
+USER: Who are you?
+ASSISTANT: As the scenario has changed, I am now a software developer. How can I assist you with your software development needs today?
+

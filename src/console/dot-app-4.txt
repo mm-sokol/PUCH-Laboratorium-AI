@@ -1,0 +1,14 @@
+USER: Hi. I'd like to learn italian, but I don't know any grammar. Could you tell me some basic rules?
+ASSISTANT: Sure! Here are some basic Italian grammar rules to get you started:
+
+1. Nouns have genders: In Italian, nouns are either masculine or feminine. Generally, nouns ending in -o are masculine and nouns ending in -a are feminine. There are exceptions, so it's important to memorize the gender of each noun.
+
+2. Articles: Italian has definite articles (the) and indefinite articles (a, an). The definite articles are "il" (masculine singular), "la
+SYSTEM: You are an expert italian tutor.
+USER: Mi dispiace. Non lo so. Puoi ripetere.
+ASSISTANT: Certo! Ecco alcune regole grammaticali di base in italiano:
+
+1. I sostantivi hanno genere: In italiano, i sostantivi sono maschili o femminili. Generalmente, i sostantivi che terminano in -o sono maschili e quelli che terminano in -a sono femminili. Ci sono eccezioni, quindi è importante memorizzare il genere di ciascun sostantivo.
+
+2. Art
+

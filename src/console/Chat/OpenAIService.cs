@@ -2,6 +2,8 @@ using Microsoft.Extensions.Configuration;
 using System.Net.Http.Json;
 using System.Text.Json;
 using Azure.AI.OpenAI;
+using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.Identity;
 
 namespace AIDotChat
 {
@@ -18,6 +20,26 @@ public class OpenAIResponse
         public required string Role { get; set; }
         public required string Content { get; set; }
     }
+}
+
+public class OpenAIRequest
+{
+    public required string Model { get; set; }
+    public required double Temperature { get; set; }
+    public double Top_p { get; set; }
+    public int Max_tokens { get; set; }
+
+    public class Content {
+        public required string Text { get; set; }
+        public required string Type { get; set; }
+    }
+
+    public class Message
+    {
+        public required string Role { get; set; }
+        public required Content[] Content { get; set; }
+    }
+    public required Message[] Messages { get; set; }
 }
 
 public class OpenAIService {
@@ -54,10 +76,11 @@ public class OpenAIService {
         _model = configuration["OpenAI:Model"] ?? "";
 
         _conversationHistory = new List<Tuple<Agent, string>>();
+
         _httpClient = new HttpClient();
         _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
         _httpClient.DefaultRequestHeaders.Add("api-key", _apiKey);
-        // _httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", configuration["Azure:Subscription"]);
+        _httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", configuration["Azure:Subscription"]);
     }
 
     public string GetModel() {
@@ -87,28 +110,30 @@ public class OpenAIService {
     public async Task<string> GetChatResponseAsync(string prompt) {
 
         AddMessage(Agent.User, prompt);
-        var messages = new List<object>();
+        var messages = new List<OpenAIRequest.Message>();
+
         foreach (var (agent, message) in _conversationHistory) {
             var role = AgentDescription.get(agent);
-            var messageObj = new {
-                role,
-                content = new[]
-                {
-                    new {
-                        type = "text",
-                        text = message
-                    }
-                }
+            var contentObj = new OpenAIRequest.Content{
+                        Type = "text",
+                        Text = message
+            };
+            var messageObj = new OpenAIRequest.Message{
+                Role = role,
+                Content =
+                [
+                    contentObj
+                ]
             };
             messages.Add(messageObj);
         }
 
-        var payload = new {
-            model = _model,
-            messages = messages,
-            temperature = 0.7,
-            top_p = 0.95,
-            max_tokens = 100
+        var payload = new OpenAIRequest{
+            Model = _model,
+            Messages = messages.ToArray(),
+            Temperature = 0.7,
+            Top_p = 0.95,
+            Max_tokens = 100
         };
 
         var messageFromChat = string.Empty;
@@ -118,23 +143,16 @@ public class OpenAIService {
 //            Console.WriteLine(_endpoint);
 //            Console.WriteLine(payload);
 
-            // Send POST request
             var response = await _httpClient.PostAsJsonAsync(_endpoint, payload);
 
-            // Check if the response is successful
             if (response.IsSuccessStatusCode)
             {
-                // Parse response content
                 var responseBody = await response.Content.ReadAsStringAsync();
-
-                // Deserialize JSON response
                 var responseObject = JsonSerializer.Deserialize<OpenAIResponse>(responseBody, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });
 
-
-                // Print the response content
                 if (responseObject?.Choices != null && responseObject.Choices.Length > 0)
                 {
                     AddMessage(Agent.Assistant, responseObject.Choices[0].Message.Content);
