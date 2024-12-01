@@ -97,6 +97,7 @@ dotnet new
 - Dodanie zależności 
 ```bash
 dotnet add package Azure.AI.OpenAI
+dotnet add package Microsoft.Extensions.Configuration
 ```
 
 ### Rezultaty:
