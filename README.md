@@ -103,7 +103,7 @@ dotnet add package OpenAI-API-dotnet
 
 - Utworzenie klasy `OpenAIService` <br>
 Klasa ma za zadanie utworzyć klienta http komunikującego się z wybranym modelem w Azure OpenAI. <br>
-Początkowo plan obejmował wykrorzystanie Azure.AI.OpenAI, jendak pakiet nie był rozpoznawany pomimo dodania zależnoścji:
+Początkowo plan obejmował wykrorzystanie Azure.AI.OpenAI, jendak pakiet nie był rozpoznawany pomimo dodania zależności oraz dołączenia dyrektyw `using`:
 ```bash
 error CS0246: Nie można znaleźć nazwy typu lub przestrzeni nazw „OpenAIClient”
 error CS0246: Nie można znaleźć nazwy typu lub przestrzeni nazw „ChatCompletionsClient”

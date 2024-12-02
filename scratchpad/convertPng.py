@@ -16,8 +16,7 @@ for filename in os.listdir(image_folder):
                 # Read and encode the image to Base64
                 base64_string = base64.b64encode(img_file.read()).decode("utf-8")
                 # Write the filename and Base64 string to the output file
-                out_file.write(f"Filename: {filename}\n")
-                out_file.write(f"Base64:\n{base64_string}\n\n")
+                out_file.write(base64_string)
                 print(f"Encoded {filename}")
             
 
