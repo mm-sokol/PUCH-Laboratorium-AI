@@ -6,7 +6,7 @@ Znajduje się na branchu `etap-1`</br>
 Raport z wykonania projektu: [etap-1.md](doc-1/etap-1.md)
 
 ### Etap 2
-Znajduje się na branchu `eptap-2`</br>
+Znajduje się na branchu `etap-2`</br>
 Raport z wykonania projektu: [etap-2.md](doc-2/etap-2.md)
 
 ### Opis 
