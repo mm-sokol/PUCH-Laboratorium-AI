@@ -15,13 +15,29 @@ using System.Net.Http;
 
 namespace AzureCVision
 {
+    public enum Mode
+    {
+        File,
+        Url,
+        None
+    };
+    class ModeDescription
+    {
+        public static string get(Mode mode)
+        {
+            return mode switch
+            {
+                Mode.File => "file",
+                Mode.Url => "url",
+                Mode.None => "",
+                _ => "unknown"
+            };
+        }
+    }
     class AzureCVService
     {
-        private readonly string _filePredictionKey;
-        private readonly string _filePredictionEndpoint;
-
-        private readonly string _urlPredictionKey;
-        private readonly string _urlPredictionEndpoint;
+        private readonly string _predictionKey;
+        private readonly string _predictionEndpoint;
 
         private readonly string _projectId;
         private readonly string _resourceId;
@@ -30,11 +46,6 @@ namespace AzureCVision
         //        private string _testImageDirectory;
         //        private string _predictionImageDirectory;
 
-        private enum Mode
-        {
-            File,
-            Url
-        };
 
         public AzureCVService(IConfiguration configuration)
         {
@@ -43,15 +54,9 @@ namespace AzureCVision
 
             _publishedName = configuration["AzureCustomVision:Prediction:PublishedName"] ?? "";
 
-            _filePredictionKey = configuration["AzureCustomVision:Prediction:file:ApiKey"] ?? "";
-            _filePredictionEndpoint = configuration["AzureCustomVision:Prediction:file:Endpoint"] ?? "";
+            _predictionKey = configuration["AzureCustomVision:Prediction:ApiKey"] ?? "";
+            _predictionEndpoint = configuration["AzureCustomVision:Prediction:Endpoint"] ?? "";
 
-            _urlPredictionKey = configuration["AzureCustomVision:Prediction:url:ApiKey"] ?? "";
-            _urlPredictionEndpoint = configuration["AzureCustomVision:Prediction:url:Endpoint"] ?? "";
-
-
-            // Console.WriteLine($"Key: {_filePredictionKey}");
-            // Console.WriteLine($"Endpoint: {_filePredictionEndpoint}");
         }
 
 
@@ -63,42 +68,29 @@ namespace AzureCVision
 
 
 
-        public async Task<ImagePrediction> PredictOneFile(string imageFile)
+        private async Task<ImagePrediction> PredictOneFile(string imageFile)
         {
             if (!File.Exists(imageFile))
-            {
                 throw new ArgumentException($"Path {imageFile} if not valid.");
-            }
-            var client = getClient(Mode.File);
-            if (client == null)
-            {
-                throw new Exception("No client for Azure Custom Vision.");
-            }
-            Console.WriteLine($"Client type: {client.GetType()}");
 
+            var client = getClient();
             using (var imageStream = new FileStream(imageFile, FileMode.Open))
             {
-                Console.WriteLine("here");
                 var prediction = await client.ClassifyImageAsync(
                     new Guid(this._projectId),
                     this._publishedName,
                     imageStream
                 );
-                Console.WriteLine("also here");
                 if (prediction == null)
-                {
                     throw new Exception("Error in PredictOneFile: Prediction is null");
-                }
-
                 return prediction;
             }
         }
 
-        public async Task<ImagePrediction> PredictOneUrl(string url)
+        private async Task<ImagePrediction> PredictOneUrl(string url)
         {
-
             await IsValidImageUrlAsync(url);
-            var client = getClient(Mode.Url);
+            var client = getClient();
             var prediction = await client.ClassifyImageUrlAsync(
                 new Guid(this._projectId),
                 this._publishedName,
@@ -107,12 +99,20 @@ namespace AzureCVision
             return prediction;
         }
 
+        public async Task<ImagePrediction> PredictOne(string imgSource, Mode mode) {
+            if (mode == Mode.File) {
+                return await PredictOneFile(imgSource);
+            } else if (mode == Mode.Url) {
+                return await PredictOneUrl(imgSource);
+            } else {
+                throw new ArgumentException($"Mode {ModeDescription.get(mode)} currently not implemented.");
+            }
+        }
+
         static private async Task IsValidImageUrlAsync(string url)
         {
             if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
-            {
                 throw new ArgumentException($"Url provided is ill-formed: {url}");
-            }
             try
             {
                 using (HttpClient httpClient = new HttpClient())
@@ -127,15 +127,13 @@ namespace AzureCVision
                     if (response.IsSuccessStatusCode)
                     {
                         // Check if the content type is an image
-                        if (response.Content == null) {
+                        if (response.Content == null)
                             throw new Exception("no content recieved while testing");
-                        } 
+
                         string contentType = response.Content.Headers.ContentType?.MediaType ?? "";
 
                         if (!contentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
-                        {
                             throw new Exception("Url does not point to image");
-                        }
                     }
                 }
             }
@@ -145,29 +143,15 @@ namespace AzureCVision
             }
         }
 
-        private CustomVisionPredictionClient getClient(Mode mode)
+        private CustomVisionPredictionClient getClient()
         {
-            switch (mode)
+            return new CustomVisionPredictionClient(new
+            Microsoft.Azure.CognitiveServices.
+            Vision.CustomVision.Prediction.
+            ApiKeyServiceClientCredentials(this._predictionKey))
             {
-                case Mode.File:
-                    return new CustomVisionPredictionClient(new
-                    Microsoft.Azure.CognitiveServices.
-                    Vision.CustomVision.Prediction.
-                    ApiKeyServiceClientCredentials(this._filePredictionKey))
-                    {
-                        Endpoint = this._filePredictionEndpoint
-                    };
-                case Mode.Url:
-                    return new CustomVisionPredictionClient(new
-                    Microsoft.Azure.CognitiveServices.
-                    Vision.CustomVision.Prediction.
-                    ApiKeyServiceClientCredentials(this._urlPredictionKey))
-                    {
-                        Endpoint = this._urlPredictionEndpoint
-                    };
-                default:
-                    throw new ArgumentException($"Mode {mode} is not recognised");
-            }
+                Endpoint = this._predictionEndpoint
+            };
         }
 
         public static async Task TestOne()

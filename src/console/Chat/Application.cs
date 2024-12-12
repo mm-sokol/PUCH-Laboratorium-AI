@@ -1,6 +1,7 @@
 using AIDotChat;
 using AzureCVision;
 using Microsoft.Extensions.Configuration;
+using System.Text.RegularExpressions;
 
 namespace AIDotChat
 {
@@ -9,6 +10,7 @@ namespace AIDotChat
         private string _username = "User";
         private string _assistant = "GPT-4";
         private OpenAIService _service;
+        private AzureCVService _visionService;
 
         public Application()
         {
@@ -18,6 +20,7 @@ namespace AIDotChat
             var configuration = builder.Build();
             // Create OpenAI service
             _service = new OpenAIService(configuration);
+            _visionService = new AzureCVService(configuration);
         }
 
         public string GetGreetings()
@@ -27,13 +30,16 @@ namespace AIDotChat
             greetings += ":--------------------------------------------------------:\n";
             greetings += $"               D O T  C H A T  {model}      \n";
             greetings += ":--------------------------------------------------------:\n";
-            greetings += " Here are some usefull commands:\n ";
+            greetings += " Here are some usefull commands:\n";
             greetings += " \\user <username> - to register your username\n";
-            greetings += " \\system <text> - to provide context for the AI assistant\n ";
-            greetings += " \\save <filename> - to save your chat history in a file\n ";
-            greetings += " \\clear - to clear the chat history\n ";
-            greetings += " \\exit - for leaving the chat\n ";
-            greetings += " ...\n ";
+            greetings += " \\system <text> - to provide context for the AI assistant\n";
+            greetings += " \\save <filename> - to save your chat history in a file\n";
+            greetings += " \\clear - to clear the chat history\n";
+            greetings += " \\exit - for leaving the chat\n\n";
+            greetings += " \\vision [options] - predicts weather from given image with Azure Custom Vision";
+            greetings += " \\vision img \"<path to img>\"";
+            greetings += " \\vision url \"<url with img>\" - ";
+            greetings += " ...\n";
             return greetings;
         }
 
@@ -51,6 +57,29 @@ namespace AIDotChat
             catch (Exception ex)
             {
                 Console.WriteLine($"An error occurred: {ex.Message}");
+            }
+        }
+
+        private bool ValidateVisionCommand(string userInput, out Mode mode, out string imgSource)
+        {
+            imgSource = string.Empty;
+            mode = Mode.None;
+            string pattern = @"^\\vision\s(img|url)\s\""(.*\.(jpg|jpeg|png|gif|bmp)|(https?|ftp):\/\/([^\s\/$.?#].[^\s]*))\""$";
+            Match match = Regex.Match(userInput, pattern, RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                if (match.Groups[1].Value == "img")
+                    mode = Mode.File;
+                else if (match.Groups[1].Value == "url")
+                    mode = Mode.Url;
+                imgSource = match.Groups[2].Value;
+
+                Console.WriteLine($"Requested image classification from {ModeDescription.get(mode)}: {imgSource}");
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -109,6 +138,41 @@ namespace AIDotChat
                         case "\\clear":
                             Console.WriteLine("Clearing conversation history.");
                             _service.ClearHistory();
+                            break;
+                        case "\\vision":
+                            try
+                            {
+                                if (words.Length < 3)
+                                {
+                                    Console.WriteLine("Not enough arguments provided.");
+                                    break;
+                                }
+                                if (ValidateVisionCommand(userInput, out Mode mode, out string imgSource))
+                                {
+                                    try
+                                    {
+                                        var prediction = await _visionService.PredictOne(imgSource, mode);
+
+                                        Console.WriteLine("--- Predicting Weather ---");
+                                        foreach (var label in prediction.Predictions)
+                                        {
+                                            Console.WriteLine($"- {label.TagName}: {label.Probability * 100:F2} %");
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine($"Error: {ex.Message}");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Command was invalid.");
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Error: {ex.Message}");
+                            }
                             break;
                         case "\\test":
                             Console.WriteLine("Testing custom vision.");

@@ -15,7 +15,7 @@ DotChat
   \clear - to clear the chat history
   \exit - for leaving the chat
   \summary pdf <filename> - [in the making]
-  \vision weather <filename> - [in the making]
+  \vision img <filename> - [in the making]
   ...
 ```
 ### 1. Custom Vision
@@ -91,14 +91,9 @@ Uzyskanie odpowiednich parametrów API i umieszczenie ich w `appsettings.json`.
     },
     "Prediction": {
       "PublishedName": "WeatherModel",
-      "file": {
-        "Endpoint": "<endpoint 2>",
-        "ApiKey": "<api key 2>"
-      },
-      "url": {
-        "Endpoint": "<endpoint 3>",
-        "ApiKey": "<api key 3>"
-      }
+      "IterationId": "<iteration id>",
+      "Endpoint": "<endpoint 2>",
+      "ApiKey": "<api key 2>"
     }
   }
 }
@@ -115,9 +110,9 @@ PublishedName
 ProjectId
 ![3_project_settings.png](screens/cv_training/3_project_settings.png)
 
-##### Wykorzystanie API 
+##### Wykorzystanie API Azure Custom Vision
 
-- utworzenie klasy `AzureCVService`
+- utworzenie klasy `AzureCVService`: [definicja](https://github.com/mm-sokol/PUCH-Laboratorium-AI/blob/ec550b033ee8680bfd6cf7f4d4f201bca8e850e6/src/console/Vision/AzureCVService.cs)
 - dodanie zależności `Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training` i 
     `Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction`
 
@@ -128,7 +123,71 @@ dotnet add package Microsoft.Azure.CognitiveServices.Vision.CustomVision.Predict
 
 - klasa `AzureCVService`
   - odczytuje wartości klucza api i endpointu z pliku konfiguracyjnego
-  - 
+  ```C#
+  public AzureCVService(IConfiguration configuration)
+  {
+      _resourceId = configuration["AzureCustomVision:ResourceId"] ?? "";
+      _projectId = configuration["AzureCustomVision:ProjectId"] ?? "";
+      _publishedName = configuration["AzureCustomVision:Prediction:PublishedName"] ?? "";
+      _predictionKey = configuration["AzureCustomVision:Prediction:ApiKey"] ?? "";
+      _predictionEndpoint = configuration["AzureCustomVision:Prediction:Endpoint"] ?? "";
+  }
+  ```
+
+  - tworzy obiekt klienta API Azure Custom Vision
+  ```C#
+  private CustomVisionPredictionClient getClient()
+  {
+      return new CustomVisionPredictionClient(new
+      Microsoft.Azure.CognitiveServices.
+      Vision.CustomVision.Prediction.
+      ApiKeyServiceClientCredentials(this._predictionKey))
+      {
+          Endpoint = this._predictionEndpoint
+      };
+  }
+  ```
+
+  - wywołuje metodę `ClassifyImageAsync` podając id projektu, nazwę publikacji modelu, stream pliku
+  ```C#
+  public async Task<ImagePrediction> PredictOneFile(string imageFile)
+  {
+      if (!File.Exists(imageFile))
+          throw new ArgumentException($"Path {imageFile} if not valid.");
+      var client = getClient();
+      using (var imageStream = new FileStream(imageFile, FileMode.Open))
+      {
+          Console.WriteLine("here");
+          var prediction = await client.ClassifyImageAsync(
+              new Guid(this._projectId),
+              this._publishedName,
+              imageStream
+          );
+          Console.WriteLine("also here");
+          if (prediction == null)
+              throw new Exception("Error in PredictOneFile: Prediction is null");
+          return prediction;
+      }
+  } 
+  ```
+
+  - posiada metodę korzystjącą z `ClassifyImageUrlAsync`
+  ```C#
+  public async Task<ImagePrediction> PredictOneUrl(string url)
+  {
+      await IsValidImageUrlAsync(url);
+      var client = getClient();
+      var prediction = await client.ClassifyImageUrlAsync(
+          new Guid(this._projectId),
+          this._publishedName,
+          new ImageUrl(url)
+      );
+      return prediction;
+  }
+  ```
+
+##### Integracja z czatem
+
 
 
 ### 2. Podsumowania plików Pdf
