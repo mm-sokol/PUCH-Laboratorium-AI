@@ -104,12 +104,15 @@ Uzyskanie odpowiednich parametrów API i umieszczenie ich w `appsettings.json`.
 }
 ```
 
-![3_publish_key.png](screens/cv_training/3_publish_key.png)
+Prediction api key i endpoint
+![alt text](screens/cv_integration/1_pred_keys_endpoint.png)
 
-![3_publish_training_key.png](screens/cv_training/3_publish_training_key.png)
+![alt text](screens/cv_integration/1_pred_keys_endpoint_2.png)
 
+PublishedName
 ![3_publish_name.png](screens/cv_training/3_publish_name.png)
 
+ProjectId
 ![3_project_settings.png](screens/cv_training/3_project_settings.png)
 
 ##### Wykorzystanie API 
@@ -123,5 +126,28 @@ dotnet add package Microsoft.Azure.CognitiveServices.Vision.CustomVision.Trainin
 dotnet add package Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction --version 2.0.0
 ```
 
+- klasa `AzureCVService`
+  - odczytuje wartości klucza api i endpointu z pliku konfiguracyjnego
+  - 
+
 
 ### 2. Podsumowania plików Pdf
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

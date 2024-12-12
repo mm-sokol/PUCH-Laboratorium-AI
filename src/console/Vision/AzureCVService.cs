@@ -89,10 +89,7 @@ namespace AzureCVision
                 {
                     throw new Exception("Error in PredictOneFile: Prediction is null");
                 }
-                else
-                {
-                    Console.WriteLine(prediction);
-                }
+
                 return prediction;
             }
         }
@@ -100,26 +97,51 @@ namespace AzureCVision
         public async Task<ImagePrediction> PredictOneUrl(string url)
         {
 
+            await IsValidImageUrlAsync(url);
             var client = getClient(Mode.Url);
-
-            using (Stream stream = await GetImageStreamFromUrlAsync(url))
-            {
-                var prediction = client.ClassifyImage(
-                    new Guid(this._projectId),
-                    this._publishedName,
-                    stream
-                );
-                return prediction;
-            }
+            var prediction = await client.ClassifyImageUrlAsync(
+                new Guid(this._projectId),
+                this._publishedName,
+                new ImageUrl(url)
+            );
+            return prediction;
         }
 
-        static private async Task<Stream> GetImageStreamFromUrlAsync(string url)
+        static private async Task IsValidImageUrlAsync(string url)
         {
-            using (HttpClient client = new HttpClient())
+            if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
             {
-                HttpResponseMessage response = await client.GetAsync(url, HttpCompletionOption.ResponseHeadersRead);
-                response.EnsureSuccessStatusCode();
-                return await response.Content.ReadAsStreamAsync();
+                throw new ArgumentException($"Url provided is ill-formed: {url}");
+            }
+            try
+            {
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    httpClient.Timeout = TimeSpan.FromSeconds(10);
+
+                    // Send a HEAD request to avoid downloading the full content
+                    HttpResponseMessage response = await httpClient.SendAsync(
+                        new HttpRequestMessage(HttpMethod.Head, url));
+
+                    // Check if the response is successful (status code 200-299)
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Check if the content type is an image
+                        if (response.Content == null) {
+                            throw new Exception("no content recieved while testing");
+                        } 
+                        string contentType = response.Content.Headers.ContentType?.MediaType ?? "";
+
+                        if (!contentType.StartsWith("image/", StringComparison.OrdinalIgnoreCase))
+                        {
+                            throw new Exception("Url does not point to image");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ArgumentException($"Url validation exception occured: {ex.Message}");
             }
         }
 
