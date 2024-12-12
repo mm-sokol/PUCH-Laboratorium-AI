@@ -10,7 +10,8 @@ Znajduje się na branchu `eptap-2`</br>
 Raport z wykonania projektu: [etap-2.md](doc-2/etap-2.md)
 
 ### Opis 
-Projekt czatu z modelem językowym wykonany w `C#` 
+`temat 13` Tworzenie interfejsu chatbotowego w C#<br>
+Zadanie polega na stworzeniu interfejsu chatbota w C# korzystjącego z API OpenAI. Program powinien pozwalać na prowadzenie wieloetapowej rozmowy z użytkownikiem w _konsoli_.
 ###### Jak korzystać
 ```bash
 dotnet build
