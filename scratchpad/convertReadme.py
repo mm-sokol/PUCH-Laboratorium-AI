@@ -36,12 +36,12 @@ def process_markdown_file(md_file_path, out_path):
     for path in html_matches:
         all_matches.append(('html', path))
         
-    seen = set()
-    unique_matches = []
-    for match in all_matches:
-        if match not in seen:
-            unique_matches.append(match)
-            seen.add(match)
+    # seen = set()
+    # unique_matches = []
+    # for match in all_matches:
+    #     if match not in seen:
+    #         unique_matches.append(match)
+    #         seen.add(match)
         
     for match in all_matches:
         image_path = match[1]  # Assuming the second element of the tuple is the image path
@@ -52,12 +52,14 @@ def process_markdown_file(md_file_path, out_path):
             print(f"Processing: {path}")
             base64_data = convert_image_to_base64(path)
             # Replace Markdown-style paths
+            # Replace Markdown-style paths
             content = markdown_image_pattern.sub(
-                lambda m: f'![{m.group(1)}]({base64_data})', content
+                lambda m: f'![{m.group(1)}]({base64_data})' if m.group(2) == image_path else m.group(0), content
             )
+            
             # Replace HTML-style paths
             content = html_image_pattern.sub(
-                lambda m: f'<img src="{base64_data}" alt="{m.group(1)}" width="{m.group(3)}"/>', content
+                lambda m: f'<img src="{base64_data}" alt="{m.group(1)}" width="{m.group(3)}"/>' if m.group(1) == image_path else m.group(0), content
             )
         else:
             print(f"Warning: Image not found at path {path}")
