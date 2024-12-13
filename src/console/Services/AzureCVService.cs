@@ -43,10 +43,6 @@ namespace AzureCVision
         private readonly string _resourceId;
         private string _publishedName;
 
-        //        private string _testImageDirectory;
-        //        private string _predictionImageDirectory;
-
-
         public AzureCVService(IConfiguration configuration)
         {
             _resourceId = configuration["AzureCustomVision:ResourceId"] ?? "";
@@ -59,13 +55,10 @@ namespace AzureCVision
 
         }
 
-
-        //        public async Task<Dictionary<string, double>> PredictMany(string imageDirectory) {
-        //
-        //
-        //
-        //        }
-
+        // TODO:
+        // public async Task<Dictionary<string, double>> PredictMany(string imageDirectory) {
+        // prediciton for many files ?
+        // }
 
 
         private async Task<ImagePrediction> PredictOneFile(string imageFile)

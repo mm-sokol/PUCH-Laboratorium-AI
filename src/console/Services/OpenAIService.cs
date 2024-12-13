@@ -72,9 +72,9 @@ public class OpenAIService {
     // private readonly ChatCompletionsClient _client;
 
     public OpenAIService(IConfiguration configuration) {
-        _apiKey = configuration["OpenAI:ApiKey"] ?? "";
-        _endpoint = configuration["OpenAI:Endpoint"] ?? "";
-        _model = configuration["OpenAI:Model"] ?? "";
+        _apiKey = configuration["AzureOpenAI:ApiKey"] ?? "";
+        _endpoint = configuration["AzureOpenAI:Endpoint"] ?? "";
+        _model = configuration["AzureOpenAI:Model"] ?? "";
 
         _conversationHistory = new List<Tuple<Agent, string>>();
 

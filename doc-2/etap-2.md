@@ -112,7 +112,7 @@ ProjectId </br>
 
 ##### Wykorzystanie API Azure Custom Vision
 
-- utworzenie klasy `AzureCVService`: [github](https://github.com/mm-sokol/PUCH-Laboratorium-AI/blob/ec550b033ee8680bfd6cf7f4d4f201bca8e850e6/src/console/Services/AzureCVService.cs)
+- utworzenie klasy `AzureCVService`: [github](https://github.com/mm-sokol/PUCH-Laboratorium-AI/blob/c7f9766622ce3ef2a1b8905b2771835bbe407ab0/src/console/Services/AzureCVService.cs)
 - dodanie zależności `Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training` i 
     `Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction`
 
@@ -189,40 +189,125 @@ dotnet add package Microsoft.Azure.CognitiveServices.Vision.CustomVision.Predict
 ##### Integracja z czatem
 
 - dodanie obiektu `AzureCVService` do klasy `Application`: [github]()
-```C#
-  // atrybuty klasy Application
-  private OpenAIService _service;
-  private AzureCVService _visionService;
+  ```C#
+    // atrybuty klasy Application
+    private OpenAIService _service;
+    private AzureCVService _visionService;
 
-  // konstruktor
-  public Application()
+    // konstruktor
+    public Application()
+    {
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json");
+        var configuration = builder.Build();
+        // Create OpenAI service
+        _service = new OpenAIService(configuration);
+        // Create Azure Custom Vision service
+        _visionService = new AzureCVService(configuration);
+    }
+  ```
+
+- obsłużenie komendy `\vision`: [github](https://github.com/mm-sokol/PUCH-Laboratorium-AI/blob/c7f9766622ce3ef2a1b8905b2771835bbe407ab0/src/console/Application/Application.cs)
+  ```C#
+  private bool ValidateVisionCommand(string userInput, out Mode mode, out string imgSource)
   {
-      var builder = new ConfigurationBuilder()
-          .SetBasePath(Directory.GetCurrentDirectory())
-          .AddJsonFile("appsettings.json");
-      var configuration = builder.Build();
-      // Create OpenAI service
-      _service = new OpenAIService(configuration);
-      // Create Azure Custom Vision service
-      _visionService = new AzureCVService(configuration);
+      imgSource = string.Empty;
+      mode = Mode.None;
+      string pattern = @"^\\vision\s(img|url)\s\""(.*\.(jpg|jpeg|png|gif|bmp)|(https?|ftp):\/\/([^\s\/$.?#].[^\s]*))\""$";
+      Match match = Regex.Match(userInput, pattern, RegexOptions.IgnoreCase);
+      if (match.Success)
+      {
+          if (match.Groups[1].Value == "img")
+              mode = Mode.File;
+          else if (match.Groups[1].Value == "url")
+              mode = Mode.Url;
+          imgSource = match.Groups[2].Value;
+          Console.WriteLine($"Requested image classification from {ModeDescription.get(mode)}: {imgSource}");
+          return true;
+      }
+      else
+      {
+          return false;
+      }
   }
-```
+  ```
 
-- obsłużenie komendy `\vision`
-```C#
-```
+  ```C#
+  // public async Task run()
+  //   while (true)
+  //     ...
+  //     if (words.Length > 0)
+  //       ...
+  //       switch (command)
+  //          ...
+              case "\\vision":
+                try
+                {
+                    if (words.Length < 3)
+                    {
+                        Console.WriteLine("Not enough arguments provided.");
+                        break;
+                    }
+                    if (ValidateVisionCommand(userInput, out Mode mode, out string imgSource))
+                    {
+                        try
+                        {
+                            var prediction = await _visionService.PredictOne(imgSource, mode);
+                            Console.WriteLine(":------------------ Predicting weather ------------------:");
+                            foreach (var label in prediction.Predictions)
+                            {
+                                Console.WriteLine($"- {label.TagName}: {label.Probability * 100:F2} %");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error: {ex.Message}");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Command was invalid.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                }
+                break;
+  ```
 
 - dodanie instrukcji użytkownika
-```C#
-```
+  ```C#
+  // public string GetGreetings()
+  greetings += " \\vision [options] - predicts weather from given image with Azure Custom Vision\n";
+  greetings += " \\vision img \"<path to img>\"\n";
+  greetings += " \\vision url \"<url with img>\"\n";
+  greetings += " ...\n";
+  ```
 
-- wyniki
+- wyniki </br>
 ![alt text](screens/cv_integration/2_vision_interaction.png)
 
 ### 2. Podsumowania plików Pdf
+`temat 4` **Tworzenie streszczenia treści dokumentu PDF**
+**Opis zadania:**  
+- Korzystając z OpenAI API (np. GPT-4), załaduj plik PDF, a następnie prześlij jego zawartość do modelu, aby wygenerował streszczenie.  
+- Wygenerowane streszczenie zapisz w pliku i wyświetl w konsoli.  
+- Program powinien mieć możliwość wygenerowania streszczeń wielu plików umieszczonych w folderze 
 
+##### Dodanie zależności do obsługi plików pdf
+```bash
+dotnet add package PdfSharpCore
+dotnet add package OpenAI
 
+dotnet add package Azure.AI.OpenAI --prerelease
+dotnet add package Azure.Identity
+```
 
+##### Integracja z czatem
+
+##### Integracja z czatem
 
 
 
