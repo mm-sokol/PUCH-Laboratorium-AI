@@ -299,11 +299,18 @@ dotnet add package Microsoft.Azure.CognitiveServices.Vision.CustomVision.Predict
 ##### Dodanie zależności do obsługi plików pdf
 ```bash
 dotnet add package PdfSharpCore
-dotnet add package OpenAI
-
-dotnet add package Azure.AI.OpenAI --prerelease
-dotnet add package Azure.Identity
+dotnet add package Azure.AI.FormRecognizer
 ```
+
+##### Dodanie zasobu Azure Document Intelligence
+
+![alt text](screens/az_document_ai/1_create.png)
+
+![alt text](screens/az_document_ai/2_create.png)
+
+![alt text](screens/az_document_ai/3_create.png)
+
+![alt text](screens/az_document_ai/4_free_tier.png)
 
 ##### Integracja z czatem
 

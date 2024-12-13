@@ -2,9 +2,18 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Net.Http.Json;
+using System.Text.Json;
+
 using PdfSharpCore.Pdf;
 using PdfSharpCore.Pdf.IO;
 using PdfSharpCore.Drawing;
+
+using Azure.AI.FormRecognizer.DocumentAnalysis;
+using Azure;
+// using Azure.AI.DocumentAnalysis;
+
+using Azure.Core;
 
 // using OpenAI;
 // using OpenAI.Models;
@@ -13,11 +22,11 @@ using PdfSharpCore.Drawing;
 using Microsoft.Extensions.Configuration;
 // using OpenAI.RealtimeConversation;
 
-using Azure;
 using Azure.AI.OpenAI;
 using Azure.AI.OpenAI.Chat;
 using OpenAI.Chat;
 using System.Collections;
+using Microsoft.AspNetCore.Identity;
 
 namespace AIDotChat
 {
@@ -53,9 +62,16 @@ namespace AIDotChat
     private AzureOpenAIClient _client;
     private ChatClient _chat;
 
+    private HttpClient _httpClient;
+
     private int _maxTokens { get; set; }
     private float _temperature { get; set; }
     private float _topP { get; set; }
+
+    private readonly string _docApiKey;
+    private readonly string _docEndpoint;
+
+    private DocumentAnalysisClient _docClient;
 
     public OpenAIPdfService(IConfiguration configuration)
     {
@@ -69,21 +85,30 @@ namespace AIDotChat
       _client = new AzureOpenAIClient(new Uri(_endpoint), new System.ClientModel.ApiKeyCredential(_apiKey));
       _chat = _client.GetChatClient(_model);
 
+      _httpClient = new HttpClient();
+      _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+      _httpClient.DefaultRequestHeaders.Add("api-key", _apiKey);
+      _httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", configuration["Azure:Subscription"]);
+
+      _docApiKey = configuration["AzureDocumentAI:ApiKey"] ?? "";
+      _docEndpoint = configuration["AzureDocumentAI:Endpoint"] ?? "";
+      _docClient = new DocumentAnalysisClient(new Uri(_docEndpoint), new AzureKeyCredential(_docApiKey));
+
       _maxTokens = 200;
       _temperature = 0.5f;
       _topP = 0.95f;
 
     }
 
-    public void Summarize(string textSource, string destination, SummaryMode mode, bool verbose)
+    public async Task Summarize(string textSource, string destination, SummaryMode mode, bool verbose)
     {
       switch (mode)
       {
         case SummaryMode.File:
-          SummarizeOne(textSource, destination, verbose);
+          await SummarizeOne(textSource, destination, verbose);
           break;
         case SummaryMode.Folder:
-          SummarizeMany(textSource, destination, verbose);
+          await SummarizeMany(textSource, destination, verbose);
           break;
         default:
           Console.WriteLine("SummaryMode currently unimplemented");
@@ -91,50 +116,116 @@ namespace AIDotChat
       }
     }
 
-    private static string ExtractFromPdf(string filePath)
+    private async Task<string> ExtractFromPdf(string filePath)
     {
       StringBuilder text = new StringBuilder();
-      // List<ChatMessageContentPart> content = [];
 
-      using (PdfDocument document = PdfReader.Open(filePath, PdfDocumentOpenMode.ReadOnly))
+      using (FileStream fs = File.OpenRead(filePath))
       {
-        foreach (var page in document.Pages)
+        // Call the AnalyzeDocument method
+        AnalyzeDocumentOperation operation = await _docClient.AnalyzeDocumentAsync(WaitUntil.Completed, "prebuilt-document", fs);
+
+        // Wait for the operation to complete
+        AnalyzeResult result = await operation.WaitForCompletionAsync();
+
+        // Output the extracted text
+        Console.WriteLine("Extracted text:");
+        foreach (var page in result.Pages)
         {
-          // content.Add(ChatMessageContentPart.CreateTextPart(page.Contents.ToString()));
-          text.AppendLine(page.Contents.ToString());
+          Console.WriteLine($"Page {page.PageNumber}");
+          foreach (var line in page.Lines)
+          {
+            Console.WriteLine(line.Content);
+            text.Append(line.Content.ToString());
+          }
         }
       }
-      // return content;
       return text.ToString();
     }
 
     // private async Task<string> SummarizePdf(string sourcePath)
-    private string SummarizePdf(string sourcePath)
+    private async Task<string> SummarizePdf(string sourcePath)
     {
-      // List<ChatMessageContentPart> content = ExtractFromPdf(filePath);
-      string text = ExtractFromPdf(sourcePath);
-      string prompt = $"Could you summarize this text for me: \n\n{text}";
+      try
+      {// List<ChatMessageContentPart> content = ExtractFromPdf(filePath);
+        Console.WriteLine("Here");
+        string text = await ExtractFromPdf(sourcePath);
+        Console.WriteLine("Alse here");
+        string prompt = $"Could you summarize this text for me: \n\n{text}";
 
-      var systemMessage = ChatMessage.CreateSystemMessage("You are an assistant tasked with summarizing text from PDF files.");
+        // var systemMessage = ChatMessage.CreateSystemMessage("You are an assistant tasked with summarizing text from PDF files.");
+        var systemMessage = new OpenAIRequest.Message
+        {
+          Role = "system",
+          Content = [ new OpenAIRequest.Content{
+            Text = "You are an assistant tasked with summarizing text from PDF files.",
+            Type = "text"
+          }]
+        };
 
-      var userMessage = ChatMessage.CreateUserMessage(prompt);
+        // var userMessage = ChatMessage.CreateUserMessage(prompt);
+        var userMessage = new OpenAIRequest.Message
+        {
+          Role = "user",
+          Content = [ new OpenAIRequest.Content{
+            Text = prompt,
+            Type = "text"
+          }]
+        };
 
-      List<ChatMessage> messages = [];
-      messages.Add(systemMessage);
-      messages.Add(userMessage);
+        List<OpenAIRequest.Message> messages = [];
+        // List<ChatMessage> messages = [];
+        messages.Add(systemMessage);
+        messages.Add(userMessage);
 
-      ChatCompletion summary = _chat.CompleteChat(messages);
+        Console.WriteLine("And here");
+        // ChatCompletion summary = _chat.CompleteChat(messages);
 
-      return summary.Content[0].Text;
+        var payload = new OpenAIRequest
+        {
+          Model = _model,
+          Messages = messages.ToArray(),
+          Temperature = _temperature,
+          Top_p = _topP,
+          Max_tokens = _maxTokens
+        };
+
+        var summary = await _httpClient.PostAsJsonAsync(_endpoint, payload);
+
+        if (!summary.IsSuccessStatusCode)
+        {
+          var errorContent = await summary.Content.ReadAsStringAsync();
+          throw new Exception($"Error in SummarizePdf: http status code {summary.StatusCode}, message: {errorContent}");
+        }
+
+        var responseBody = await summary.Content.ReadAsStringAsync();
+        var responseObject = JsonSerializer.Deserialize<OpenAIResponse>(responseBody, new JsonSerializerOptions
+        {
+          PropertyNameCaseInsensitive = true
+        });
+
+        if (responseObject?.Choices != null && responseObject.Choices.Length > 0)
+        {
+          return responseObject.Choices[0].Message.Content;
+        }
+        else
+        {
+          throw new Exception($"No response from OpenAI.");
+        }
+      }
+      catch (Exception ex)
+      {
+        throw new Exception($"SummarizePdf exception: {ex.Message}");
+      }
     }
 
-    private void SummarizeOne(string sourcePath, string destPath, bool verbose)
+    private async Task SummarizeOne(string sourcePath, string destPath, bool verbose)
     {
       try
       {
         string? destDir = Path.GetDirectoryName(destPath);
 
-        if (destDir == null)
+        if (string.IsNullOrEmpty(destDir))
           throw new Exception($"Invalid destination directory: {destPath}");
 
         string? destName = Path.GetFileName(destPath);
@@ -146,8 +237,25 @@ namespace AIDotChat
         if (string.IsNullOrEmpty(destExt) || !destExt.Equals(".pdf", StringComparison.OrdinalIgnoreCase))
           destPath = Path.Combine(destDir, destName + ".pdf");
 
+        Console.WriteLine($"Dest name: {destName}");
+        Console.WriteLine($"Dest ext: {destExt}");
+        Console.WriteLine($"Dest dir: {destDir}");
+        Console.WriteLine($"Dest path: {destPath}");
+        Console.WriteLine($"--------------------------------?");
+        if (destPath.Contains("\0"))
+        {
+          Console.WriteLine("File path contains an invalid null character.");
+
+        }
+        if (sourcePath.Contains("\0"))
+        {
+          Console.WriteLine("In file path contains an invalid null character.");
+        }
+
+
+
         Directory.CreateDirectory(destDir);
-        string text = SummarizePdf(sourcePath);
+        string text = await SummarizePdf(sourcePath);
 
         if (verbose)
         {
@@ -162,7 +270,7 @@ namespace AIDotChat
           Console.WriteLine($"Summary of {sourcePath} in: {destPath}");
         }
 
-        SaveTextAsPdf(text, destPath);
+        // SaveTextAsPdf(text, $"\"{destPath}\"");
       }
       catch (Exception ex)
       {
@@ -170,7 +278,7 @@ namespace AIDotChat
       }
     }
 
-    private void SummarizeMany(string sourceDir, string destDir, bool verbose)
+    private async Task SummarizeMany(string sourceDir, string destDir, bool verbose)
     {
       Directory.CreateDirectory(destDir);
       string[] pdfFiles = Directory.GetFiles(sourceDir, "*.pdf");
@@ -179,7 +287,7 @@ namespace AIDotChat
       {
         try
         {
-          SummarizeOne(filePath, filePath.Replace(sourceDir, destDir), verbose);
+          await SummarizeOne(filePath, filePath.Replace(sourceDir, destDir), verbose);
         }
         catch (Exception ex)
         {

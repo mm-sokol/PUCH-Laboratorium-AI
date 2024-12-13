@@ -46,10 +46,10 @@ namespace AIDotChat
             greetings += " \\vision img \"<path to img>\"\n";
             greetings += " \\vision url \"<url with img>\"\n\n";
 
-            greetings += " \\summary [options] - creates summaries of pdf files with OpenAI\n";
-            greetings += " \\summary pdf \"<in filename>\" to \"<out filename>\"\n";
-            greetings += " \\summary dir \"<source path>\" to \"dest path>\"\n";
-            greetings += " \\summary ... -v|--verbose - outputs summary to screen\n";
+            greetings += " \\summarize [options] - creates summaries of pdf files with OpenAI\n";
+            greetings += " \\summarize pdf \"<in filename>\" to \"<out filename>\"\n";
+            greetings += " \\summarize dir \"<source path>\" to \"dest path>\"\n";
+            greetings += " \\summarize ... -v|--verbose - outputs summary to screen\n";
             greetings += " ...\n";
             return greetings;
         }
@@ -100,7 +100,7 @@ namespace AIDotChat
             mode = SummaryMode.None;
             verbose = false;
 
-            string pattern = @"^\\summary\s+(pdf|dir)\s+(-v|\--verbose)?\s+""[^""]+\""\s+to\s+""[^""]+""\s*(-v|\--verbose)?$";
+            string pattern = @"^\\summarize\s+(pdf|dir)\s+(-v|\--verbose)?\s*""([^""]+)""\s+to\s+""([^""]+)""\s*(-v|\--verbose)?$";
             Match match = Regex.Match(userInput, pattern, RegexOptions.IgnoreCase);
             if (match.Success)
             {
@@ -108,9 +108,13 @@ namespace AIDotChat
                     mode = SummaryMode.File;
                 else if (match.Groups[1].Value == "dir")
                     mode = SummaryMode.Folder;
+                else
+                    return false;
 
                 pdfSource = match.Groups[3].Value;
+                Console.WriteLine($"Source {pdfSource}");
                 pdfDest = match.Groups[4].Value;
+                Console.WriteLine($"Dest {pdfDest}");
 
                 if (match.Groups[2].Value != null || match.Groups[5].Value != null)
                     verbose = true;
@@ -216,16 +220,17 @@ namespace AIDotChat
                                 Console.WriteLine($"Error: {ex.Message}");
                             }
                             break;
-                        case "\\summary":
+                        case "\\summarize":
                             if (words.Length < 5) {
                                 Console.WriteLine("Not enough arguments provided");
                                 break;
                             }
                             if (! ValidateSummaryCommand(userInput, out SummaryMode sMode, out string fileSource, out string fileDest, out bool verbose)) {
                                 Console.WriteLine("Command validation failed");
+                                break;
                             }
                             try {
-                                _summaryService.Summarize(fileSource, fileDest, sMode, verbose);
+                               await _summaryService.Summarize(fileSource, fileDest, sMode, verbose);
                             } catch (Exception ex) {
                                 Console.WriteLine($"Error occured: {ex.Message}");
                             }
