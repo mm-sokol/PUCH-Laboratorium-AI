@@ -1,6 +1,7 @@
 using AIDotChat;
 using AzureCVision;
 using Microsoft.Extensions.Configuration;
+using Sprache;
 using System.Text.RegularExpressions;
 
 namespace AIDotChat
@@ -11,6 +12,7 @@ namespace AIDotChat
         private string _assistant = "GPT-4";
         private OpenAIService _service;
         private AzureCVService _visionService;
+        private OpenAIPdfService _summaryService;
 
         public Application()
         {
@@ -22,6 +24,8 @@ namespace AIDotChat
             _service = new OpenAIService(configuration);
             // Create Azure Custom Vision service
             _visionService = new AzureCVService(configuration);
+            // Create service for summaries
+            _summaryService = new OpenAIPdfService(configuration);
         }
 
         public string GetGreetings()
@@ -37,9 +41,15 @@ namespace AIDotChat
             greetings += " \\save <filename> - to save your chat history in a file\n";
             greetings += " \\clear - to clear the chat history\n";
             greetings += " \\exit - for leaving the chat\n\n";
+
             greetings += " \\vision [options] - predicts weather from given image with Azure Custom Vision\n";
             greetings += " \\vision img \"<path to img>\"\n";
-            greetings += " \\vision url \"<url with img>\"\n";
+            greetings += " \\vision url \"<url with img>\"\n\n";
+
+            greetings += " \\summary [options] - creates summaries of pdf files with OpenAI\n";
+            greetings += " \\summary pdf \"<in filename>\" to \"<out filename>\"\n";
+            greetings += " \\summary dir \"<source path>\" to \"dest path>\"\n";
+            greetings += " \\summary ... -v|--verbose - outputs summary to screen\n";
             greetings += " ...\n";
             return greetings;
         }
@@ -76,6 +86,37 @@ namespace AIDotChat
                 imgSource = match.Groups[2].Value;
 
                 Console.WriteLine($"Requested image classification from {ModeDescription.get(mode)}: {imgSource}");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool ValidateSummaryCommand(string userInput, out SummaryMode mode, out string pdfSource, out string pdfDest, out bool verbose) {
+            pdfSource = string.Empty;
+            pdfDest = string.Empty;
+            mode = SummaryMode.None;
+            verbose = false;
+
+            string pattern = @"^\\summary\s+(pdf|dir)\s+(-v|\--verbose)?\s+""[^""]+\""\s+to\s+""[^""]+""\s*(-v|\--verbose)?$";
+            Match match = Regex.Match(userInput, pattern, RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                if (match.Groups[1].Value == "pdf")
+                    mode = SummaryMode.File;
+                else if (match.Groups[1].Value == "dir")
+                    mode = SummaryMode.Folder;
+
+                pdfSource = match.Groups[3].Value;
+                pdfDest = match.Groups[4].Value;
+
+                if (match.Groups[2].Value != null || match.Groups[5].Value != null)
+                    verbose = true;
+
+
+                Console.WriteLine($"Requested pdf summary from {SummaryModeDescription.get(mode)}: {pdfSource} to {pdfDest}");
                 return true;
             }
             else
@@ -148,11 +189,11 @@ namespace AIDotChat
                                     Console.WriteLine("Not enough arguments provided.");
                                     break;
                                 }
-                                if (ValidateVisionCommand(userInput, out Mode mode, out string imgSource))
+                                if (ValidateVisionCommand(userInput, out Mode vMode, out string imgSource))
                                 {
                                     try
                                     {
-                                        var prediction = await _visionService.PredictOne(imgSource, mode);
+                                        var prediction = await _visionService.PredictOne(imgSource, vMode);
 
                                         Console.WriteLine(":------------------ Predicting weather ------------------:");
                                         foreach (var label in prediction.Predictions)
@@ -175,9 +216,19 @@ namespace AIDotChat
                                 Console.WriteLine($"Error: {ex.Message}");
                             }
                             break;
-                        case "\\test":
-                            Console.WriteLine("Testing custom vision.");
-                            await AzureCVService.TestOne();
+                        case "\\summary":
+                            if (words.Length < 5) {
+                                Console.WriteLine("Not enough arguments provided");
+                                break;
+                            }
+                            if (! ValidateSummaryCommand(userInput, out SummaryMode sMode, out string fileSource, out string fileDest, out bool verbose)) {
+                                Console.WriteLine("Command validation failed");
+                            }
+                            try {
+                                _summaryService.Summarize(fileSource, fileDest, sMode, verbose);
+                            } catch (Exception ex) {
+                                Console.WriteLine($"Error occured: {ex.Message}");
+                            }
                             break;
                         default:
                             // Console.WriteLine("We are in the default");

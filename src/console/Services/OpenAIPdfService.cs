@@ -75,14 +75,20 @@ namespace AIDotChat
 
     }
 
-    public async Task<string> Summarize(string textSource, SummaryMode mode = SummaryMode.File)
+    public void Summarize(string textSource, string destination, SummaryMode mode, bool verbose)
     {
-      return mode switch
+      switch (mode)
       {
-        SummaryMode.File => await SummarizePdf(textSource),
-        SummaryMode.Folder => await SummarizeMany(textSource),
-        _ => "SummaryMode currently unimplemented"
-      };
+        case SummaryMode.File:
+          SummarizeOne(textSource, destination, verbose);
+          break;
+        case SummaryMode.Folder:
+          SummarizeMany(textSource, destination, verbose);
+          break;
+        default:
+          Console.WriteLine("SummaryMode currently unimplemented");
+          break;
+      }
     }
 
     private static string ExtractFromPdf(string filePath)
@@ -102,7 +108,8 @@ namespace AIDotChat
       return text.ToString();
     }
 
-    private async Task<string> SummarizePdf(string sourcePath)
+    // private async Task<string> SummarizePdf(string sourcePath)
+    private string SummarizePdf(string sourcePath)
     {
       // List<ChatMessageContentPart> content = ExtractFromPdf(filePath);
       string text = ExtractFromPdf(sourcePath);
@@ -121,7 +128,7 @@ namespace AIDotChat
       return summary.Content[0].Text;
     }
 
-    private async Task SummarizeOne(string sourcePath, string destPath, bool verbose)
+    private void SummarizeOne(string sourcePath, string destPath, bool verbose)
     {
       try
       {
@@ -140,7 +147,7 @@ namespace AIDotChat
           destPath = Path.Combine(destDir, destName + ".pdf");
 
         Directory.CreateDirectory(destDir);
-        string text = await SummarizePdf(sourcePath);
+        string text = SummarizePdf(sourcePath);
 
         if (verbose)
         {
@@ -149,7 +156,9 @@ namespace AIDotChat
           Console.WriteLine(":--------------------------------------------------------:");
           Console.WriteLine(text);
           Console.WriteLine($" Summary in: {destPath}");
-        } else {
+        }
+        else
+        {
           Console.WriteLine($"Summary of {sourcePath} in: {destPath}");
         }
 
@@ -161,7 +170,7 @@ namespace AIDotChat
       }
     }
 
-    private async Task SummarizeMany(string sourceDir, string destDir, bool verbose)
+    private void SummarizeMany(string sourceDir, string destDir, bool verbose)
     {
       Directory.CreateDirectory(destDir);
       string[] pdfFiles = Directory.GetFiles(sourceDir, "*.pdf");
@@ -170,7 +179,7 @@ namespace AIDotChat
       {
         try
         {
-          await SummarizeOne(filePath, filePath.Replace(sourceDir, destDir), verbose);
+          SummarizeOne(filePath, filePath.Replace(sourceDir, destDir), verbose);
         }
         catch (Exception ex)
         {
