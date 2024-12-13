@@ -27,6 +27,7 @@ using Azure.AI.OpenAI.Chat;
 using OpenAI.Chat;
 using System.Collections;
 using Microsoft.AspNetCore.Identity;
+using System.Linq.Expressions;
 
 namespace AIDotChat
 {
@@ -53,14 +54,39 @@ namespace AIDotChat
     }
   }
 
+
+  enum SaveMode
+  {
+    Pdf,
+    Md,
+    Txt,
+    None
+  }
+
+  class SaveModeDescription
+  {
+    public static string get(SaveMode mode)
+    {
+      return mode switch
+      {
+        SaveMode.Pdf => ".pdf",
+        SaveMode.Md => ".md",
+        SaveMode.Txt => ".txt",
+        SaveMode.None => "",
+        _ => "unknown"
+      };
+    }
+  }
+
   class OpenAIPdfService
   {
     private readonly string _apiKey;
     private readonly string _endpoint;
 
     private readonly string _model;
-    private AzureOpenAIClient _client;
-    private ChatClient _chat;
+
+    // private AzureOpenAIClient _client;
+    // private ChatClient _chat;
 
     private HttpClient _httpClient;
 
@@ -82,8 +108,8 @@ namespace AIDotChat
       _endpoint = configuration["AzureOpenAI:Endpoint"] ?? "";
       _model = configuration["AzureOpenAI:Model"] ?? "";
 
-      _client = new AzureOpenAIClient(new Uri(_endpoint), new System.ClientModel.ApiKeyCredential(_apiKey));
-      _chat = _client.GetChatClient(_model);
+      // _client = new AzureOpenAIClient(new Uri(_endpoint), new System.ClientModel.ApiKeyCredential(_apiKey));
+      // _chat = _client.GetChatClient(_model);
 
       _httpClient = new HttpClient();
       _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
@@ -129,7 +155,7 @@ namespace AIDotChat
         AnalyzeResult result = await operation.WaitForCompletionAsync();
 
         // Output the extracted text
-        Console.WriteLine("Extracting text:");
+        Console.WriteLine("Extracting text...");
         foreach (var page in result.Pages)
         {
           Console.WriteLine($"Page {page.PageNumber}");
@@ -148,9 +174,7 @@ namespace AIDotChat
     {
       try
       {// List<ChatMessageContentPart> content = ExtractFromPdf(filePath);
-        Console.WriteLine("Here");
         string text = await ExtractFromPdf(sourcePath);
-        Console.WriteLine("Alse here");
         string prompt = $"Could you summarize this text for me: \n\n{text}";
 
         // var systemMessage = ChatMessage.CreateSystemMessage("You are an assistant tasked with summarizing text from PDF files.");
@@ -178,7 +202,6 @@ namespace AIDotChat
         messages.Add(systemMessage);
         messages.Add(userMessage);
 
-        Console.WriteLine("And here");
         // ChatCompletion summary = _chat.CompleteChat(messages);
 
         var payload = new OpenAIRequest
@@ -223,40 +246,11 @@ namespace AIDotChat
     {
       try
       {
-        string? destDir = Path.GetDirectoryName(destPath);
-
-        if (string.IsNullOrEmpty(destDir))
-          throw new Exception($"Invalid destination directory: {destPath}");
-
-        string? destName = Path.GetFileName(destPath);
-        if (string.IsNullOrEmpty(destName))
-          throw new Exception($"Invelid destination filename: {destPath}");
-
-        string? destExt = Path.GetExtension(destPath);
-
-        if (string.IsNullOrEmpty(destExt) || !destExt.Equals(".pdf", StringComparison.OrdinalIgnoreCase))
-          destPath = Path.Combine(destDir, destName + ".pdf");
-
-        Console.WriteLine($"Dest name: {destName}");
-        Console.WriteLine($"Dest ext: {destExt}");
-        Console.WriteLine($"Dest dir: {destDir}");
-        Console.WriteLine($"Dest path: {destPath}");
-        Console.WriteLine($"--------------------------------?");
-        if (destPath.Contains("\0"))
-        {
-          Console.WriteLine("File path contains an invalid null character.");
-
-        }
-        if (sourcePath.Contains("\0"))
-        {
-          Console.WriteLine("In file path contains an invalid null character.");
-        }
-
-
-
-        Directory.CreateDirectory(destDir);
         string text = await SummarizePdf(sourcePath);
-
+        if (ValidateDestFilename(ref destPath, SaveMode.Md))
+        {
+          SaveTextAsMd(text, destPath);
+        }
         if (verbose)
         {
           Console.WriteLine(":--------------------------------------------------------:");
@@ -270,7 +264,6 @@ namespace AIDotChat
           Console.WriteLine($"Summary of {sourcePath} in: {destPath}");
         }
 
-        SaveTextAsPdf(text, destPath);
       }
       catch (Exception ex)
       {
@@ -294,7 +287,6 @@ namespace AIDotChat
           Console.WriteLine($"Failed to process {filePath}: {ex.Message}");
         }
       }
-
     }
 
     private void SaveTextAsPdf(string text, string destFilePath)
@@ -310,6 +302,70 @@ namespace AIDotChat
       document.Save(destFilePath);
     }
 
+    private void SaveTextAsMd(string text, string destFilePath)
+    {
+      try
+      {
+        File.WriteAllText(destFilePath, text);
+        // Console.WriteLine($"Markdown file saved to {destFilePath}");
+      }
+      catch (Exception ex)
+      {
+        Console.WriteLine($"An error occurred: {ex.Message}");
+      }
+    }
 
+    private bool ValidateDestFilename(ref string destPath, SaveMode mode)
+    {
+      if (string.IsNullOrWhiteSpace(destPath))
+      {
+        throw new ArgumentException("Destination path cannot be null or empty.");
+      }
+
+      // Resolve relative path to absolute path
+      destPath = Path.GetFullPath(destPath);
+
+      string? destDir = Path.GetDirectoryName(destPath);
+      if (string.IsNullOrEmpty(destDir))
+      {
+        throw new ArgumentException($"Invalid destination directory: {destPath}");
+      }
+
+      string? destName = Path.GetFileName(destPath);
+      if (string.IsNullOrEmpty(destName))
+      {
+        throw new ArgumentException($"Invalid destination filename: {destPath}");
+      }
+
+      string? destExt = Path.GetExtension(destPath);
+      string requiredExt = SaveModeDescription.get(mode);
+
+      // Ensure the file has the required extension
+      if (string.IsNullOrEmpty(destExt) || !destExt.Equals(requiredExt, StringComparison.OrdinalIgnoreCase))
+      {
+        string fileName = Path.GetFileNameWithoutExtension(destPath);
+        destPath = Path.Combine(destDir, $"{fileName}{requiredExt}");
+      }
+
+      // Validate the resolved path structure
+      char[] invalidPathChars = Path.GetInvalidPathChars();
+      if (destPath.IndexOfAny(invalidPathChars) != -1)
+      {
+        throw new ArgumentException($"Destination path contains invalid characters: {destPath}");
+      }
+
+      char[] invalidFileChars = Path.GetInvalidFileNameChars();
+      if (destName.IndexOfAny(invalidFileChars) != -1)
+      {
+        throw new ArgumentException($"Destination filename contains invalid characters: {destPath}");
+      }
+      // Ensure the directory exists or create it
+      if (!Directory.Exists(destDir))
+      {
+        Directory.CreateDirectory(destDir);
+      }
+
+      return true;
+    }
   }
 }
