@@ -58,7 +58,7 @@ def split_dataset(input_dir, output_dir, train_ratio=0.7, val_ratio=0.15, test_r
                 shutil.copy(os.path.join(class_dir, img), subset_dir)
 ```
 
-Zbiory zostały załadowane do `customvision.ai` i otagowane
+Zbiory zostały załadowane do `customvision.ai` i otagowane</br>
 
 
 | Tagi                                                                                          | Przykład                                                                                            |
@@ -73,11 +73,11 @@ Zbiory zostały załadowane do `customvision.ai` i otagowane
 
 ##### Publikowanie modelu
 
-customvision.ai `>` Performances `>` Publish 
+customvision.ai `>` Performances `>` Publish </br>
 
 ![3_publish_model.png](screens/cv_training/3_publish_model.png)
 
-Uzyskanie odpowiednich parametrów API i umieszczenie ich w `appsettings.json`.
+Uzyskanie odpowiednich parametrów API i umieszczenie ich w `appsettings.json`.</br>
 
 ```json
 {
@@ -99,20 +99,20 @@ Uzyskanie odpowiednich parametrów API i umieszczenie ich w `appsettings.json`.
 }
 ```
 
-Prediction api key i endpoint
+Prediction api key i endpoint </br>
 ![alt text](screens/cv_integration/1_pred_keys_endpoint.png)
 
 ![alt text](screens/cv_integration/1_pred_keys_endpoint_2.png)
 
-PublishedName
+PublishedName </br>
 ![3_publish_name.png](screens/cv_training/3_publish_name.png)
 
-ProjectId
+ProjectId </br>
 ![3_project_settings.png](screens/cv_training/3_project_settings.png)
 
 ##### Wykorzystanie API Azure Custom Vision
 
-- utworzenie klasy `AzureCVService`: [definicja](https://github.com/mm-sokol/PUCH-Laboratorium-AI/blob/ec550b033ee8680bfd6cf7f4d4f201bca8e850e6/src/console/Vision/AzureCVService.cs)
+- utworzenie klasy `AzureCVService`: [github](https://github.com/mm-sokol/PUCH-Laboratorium-AI/blob/ec550b033ee8680bfd6cf7f4d4f201bca8e850e6/src/console/Services/AzureCVService.cs)
 - dodanie zależności `Microsoft.Azure.CognitiveServices.Vision.CustomVision.Training` i 
     `Microsoft.Azure.CognitiveServices.Vision.CustomVision.Prediction`
 
@@ -188,7 +188,36 @@ dotnet add package Microsoft.Azure.CognitiveServices.Vision.CustomVision.Predict
 
 ##### Integracja z czatem
 
+- dodanie obiektu `AzureCVService` do klasy `Application`: [github]()
+```C#
+  // atrybuty klasy Application
+  private OpenAIService _service;
+  private AzureCVService _visionService;
 
+  // konstruktor
+  public Application()
+  {
+      var builder = new ConfigurationBuilder()
+          .SetBasePath(Directory.GetCurrentDirectory())
+          .AddJsonFile("appsettings.json");
+      var configuration = builder.Build();
+      // Create OpenAI service
+      _service = new OpenAIService(configuration);
+      // Create Azure Custom Vision service
+      _visionService = new AzureCVService(configuration);
+  }
+```
+
+- obsłużenie komendy `\vision`
+```C#
+```
+
+- dodanie instrukcji użytkownika
+```C#
+```
+
+- wyniki
+![alt text](screens/cv_integration/2_vision_interaction.png)
 
 ### 2. Podsumowania plików Pdf
 

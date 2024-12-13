@@ -20,6 +20,7 @@ namespace AIDotChat
             var configuration = builder.Build();
             // Create OpenAI service
             _service = new OpenAIService(configuration);
+            // Create Azure Custom Vision service
             _visionService = new AzureCVService(configuration);
         }
 
@@ -36,9 +37,9 @@ namespace AIDotChat
             greetings += " \\save <filename> - to save your chat history in a file\n";
             greetings += " \\clear - to clear the chat history\n";
             greetings += " \\exit - for leaving the chat\n\n";
-            greetings += " \\vision [options] - predicts weather from given image with Azure Custom Vision";
-            greetings += " \\vision img \"<path to img>\"";
-            greetings += " \\vision url \"<url with img>\" - ";
+            greetings += " \\vision [options] - predicts weather from given image with Azure Custom Vision\n";
+            greetings += " \\vision img \"<path to img>\"\n";
+            greetings += " \\vision url \"<url with img>\"\n";
             greetings += " ...\n";
             return greetings;
         }
@@ -153,7 +154,7 @@ namespace AIDotChat
                                     {
                                         var prediction = await _visionService.PredictOne(imgSource, mode);
 
-                                        Console.WriteLine("--- Predicting Weather ---");
+                                        Console.WriteLine(":------------------ Predicting weather ------------------:");
                                         foreach (var label in prediction.Predictions)
                                         {
                                             Console.WriteLine($"- {label.TagName}: {label.Probability * 100:F2} %");
