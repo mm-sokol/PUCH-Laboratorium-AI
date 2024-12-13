@@ -100,8 +100,11 @@ namespace AIDotChat
             mode = SummaryMode.None;
             verbose = false;
 
+            Console.WriteLine("Here 1");
             string pattern = @"^\\summarize\s+(pdf|dir)\s+(-v|\--verbose)?\s*""([^""]+)""\s+to\s+""([^""]+)""\s*(-v|\--verbose)?$";
+            Console.WriteLine("Here 2");
             Match match = Regex.Match(userInput, pattern, RegexOptions.IgnoreCase);
+            Console.WriteLine("Here 3");
             if (match.Success)
             {
                 if (match.Groups[1].Value == "pdf")

@@ -129,13 +129,13 @@ namespace AIDotChat
         AnalyzeResult result = await operation.WaitForCompletionAsync();
 
         // Output the extracted text
-        Console.WriteLine("Extracted text:");
+        Console.WriteLine("Extracting text:");
         foreach (var page in result.Pages)
         {
           Console.WriteLine($"Page {page.PageNumber}");
           foreach (var line in page.Lines)
           {
-            Console.WriteLine(line.Content);
+            // Console.WriteLine(line.Content);
             text.Append(line.Content.ToString());
           }
         }
@@ -270,7 +270,7 @@ namespace AIDotChat
           Console.WriteLine($"Summary of {sourcePath} in: {destPath}");
         }
 
-        // SaveTextAsPdf(text, $"\"{destPath}\"");
+        SaveTextAsPdf(text, destPath);
       }
       catch (Exception ex)
       {
