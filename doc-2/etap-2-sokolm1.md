@@ -2,7 +2,7 @@ DotChat
 ===
 `etap-2`
 1. [Custom Vision](#1-custom-vision)
-2. [temat 4: Podsumowania plików pdf](#2-podsumowania-plików-pdf)
+2. [Podsumowania plików pdf](#2-podsumowania-plików-pdf)
 
 Repozytorium: [github](https://github.com/mm-sokol/PUCH-Laboratorium-AI/tree/etap-2)
 

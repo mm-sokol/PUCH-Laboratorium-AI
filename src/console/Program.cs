@@ -10,13 +10,16 @@ class Program
         // Set up configuration
         var app = new Application();
 
+        var origWidth = Console.WindowWidth;
+        var origHeight = Console.WindowHeight;
         Console.WindowWidth = 100;
 
         Console.WriteLine(app.GetGreetings());
 
         await app.run();
 
-        Console.WindowWidth = 0;
+
+        Console.SetWindowSize(origWidth, origHeight);
     }
 
 }
