@@ -1,12 +1,17 @@
 .idea
+.idea\misc.xml
 *.iml
 **/obj
 **/appsettings.json
 **/appsettings.Development.json
 **/.env
+
 resources
 !resources/manage_dataset.py
+
 src/console/bin
 src/console/obj
 src/console/.env
+
+test/obj
 .venv
