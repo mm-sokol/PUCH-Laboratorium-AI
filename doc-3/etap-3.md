@@ -12,6 +12,8 @@ DotChat
 
 Repozytorium: [github](https://github.com/mm-sokol/PUCH-Laboratorium-AI/tree/etap-3)
 
+Currently labeling: 1135-receipt.jpg
+
 Crediting data sources:
 - [ExpressExpense.com](https://expressexpense.com/blog/free-receipt-images-ocr-machine-learning-dataset/)
 - [OCR Receipts from Grocery Stores Text Detection - kaggle dataset](https://www.kaggle.com/datasets/trainingdatapro/ocr-receipts-text-detection)
