@@ -23,6 +23,9 @@ Zadanie polega na stworzeniu interfejsu chatbota w C# korzystjącego z API OpenA
    - Wygenerowane streszczenie zapisz w pliku i wyświetl w konsoli.  
    - Program powinien mieć możliwość wygenerowania streszczeń wielu plików umieszczonych w folderze 
 
+`temat 7` Generowanie obrazów na podstawie opisu </br>
+   **Opis zadania:**  
+   - Wykorzystując API OpenAI i model DALL-E, stwórz aplikację generującą obraz na podstawie dostarczonego przez użytkownika opisu.
 ###### Jak korzystać
 ```bash
 dotnet build
