@@ -16,6 +16,7 @@ Raport z wykonania projektu: [etap-3.md](doc-3/etap-3.md)
 ### Opis 
 `temat 13` Tworzenie interfejsu chatbotowego w C#<br>
 Zadanie polega na stworzeniu interfejsu chatbota w C# korzystjącego z API OpenAI. Program powinien pozwalać na prowadzenie wieloetapowej rozmowy z użytkownikiem w _konsoli_.
+
 `temat 4` Tworzenie streszczenia treści dokumentu PDF </br>
    **Opis zadania:**  
    - Korzystając z OpenAI API (np. GPT-4), załaduj plik PDF, a następnie prześlij jego zawartość do modelu, aby wygenerował streszczenie.  
