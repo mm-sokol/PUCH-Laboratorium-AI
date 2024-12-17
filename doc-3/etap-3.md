@@ -12,7 +12,7 @@ DotChat
 
 Repozytorium: [github](https://github.com/mm-sokol/PUCH-Laboratorium-AI/tree/etap-3)
 
-Currently labeling: 1135-receipt.jpg
+Currently labeling: 1076-receipt.jpg
 
 Crediting data sources:
 - [ExpressExpense.com](https://expressexpense.com/blog/free-receipt-images-ocr-machine-learning-dataset/)
@@ -132,23 +132,42 @@ Ponieważ projekt wymaga użycia `Blob Storage Container` został utworzony `Sto
   <tr>
     <td>
       <div style="text-align: center;">
-        <img src="screens/1_doc_training/6_labeled_receipt.png" alt="text" width="234"/>
+        <img src="screens/1_doc_training/6_labeled_receipt.png" alt="text" height="300"/>
       </div>
     </td>
     <td>
       <div style="text-align: center;">
-        <img src="screens/1_doc_training/7_labeled_receipt.png" alt="text" width="200"/>
+        <img src="screens/1_doc_training/7_labeled_receipt.png" alt="text" height="300"/>
       </div>
     </td>
     <td>
       <div style="text-align: center;">
-        <img src="screens/1_doc_training/8_labels.png" alt="text" width="160"/>
+        <img src="screens/1_doc_training/8_labels.png" alt="text" height="300"/>
       </div>
     </td>
   </tr>
 </table>
 
+#### 9. Integracja z chatem
+- dodanie zależności
 
+```bash
+dotnet add package Azure.AI.FormRecognizer
+```
+
+- zapisanie kluczy 
+```json
+
+```
+
+- stworzenie klasy serwisu: `AzureCDIReceiptService`
+
+
+- dodanie specjalnej komendy 
+
+- dodanie instrukcji użytkownika
+
+#### 10. Testy
 
 
 ### 2. Generowanie obrazów na podstawie opisu
