@@ -3,6 +3,8 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using Azure.AI.OpenAI;
 using Microsoft.Net.Http.Headers;
+using Microsoft.Identity.Client;
+using System.Text;
 
 namespace AzureOpenAI
 {
@@ -33,10 +35,29 @@ namespace AzureOpenAI
     public required string Message { get; init; }
   }
 
-  class ImageResopnse
+  class ImageResponse
   {
     public required int Created { get; init; }
     public required Data[] Data;
+  }
+
+  enum GenerationMode
+  {
+    Jpg, Url, None
+  }
+
+  class GenerationModeDescription
+  {
+    public static string get(GenerationMode mode)
+    {
+      return mode switch
+      {
+        GenerationMode.Jpg => ".jpg",
+        GenerationMode.Url => "url",
+        GenerationMode.None => "",
+        _ => "unknown"
+      };
+    }
   }
 
   class OpenAIImageService
@@ -223,29 +244,140 @@ namespace AzureOpenAI
       };
     }
 
-    public void GetPrompt(string userInput) {
-      _request.Prompt = userInput;
+    public void PromptForPrompt()
+    {
+      Console.WriteLine($"{_model}: Could you describe you desired image? (press double Enter after you're finished)");
+      StringBuilder userInput = new StringBuilder();
+      string line = string.Empty;
+
+      do {
+        Console.WriteLine($"{_user}: ");
+        line = Console.ReadLine() ?? "";
+        userInput.Append(line);
+      } while (!string.IsNullOrWhiteSpace(line));
+
+      _request.Prompt = userInput.ToString();
     }
 
-    public void PromptForNumber() {
+    public void PromptForNumber()
+    {
       Console.Write($"{_model.ToUpper()}: How many images?");
       bool invalidInput = true;
       int number = 0;
-      while (invalidInput) {
+      while (invalidInput)
+      {
+
         Console.WriteLine($"{_user}: ");
-        string input = Console.ReadLine();
-        if (int.TryParse(input, out number)) {
+        string input = Console.ReadLine() ?? "";
+
+        if (int.TryParse(input, out number))
+        {
           invalidInput = false;
-        } else {
+        }
+        else
+        {
           Console.Write($"{_model.ToUpper()}: This is not a valid number. Sorry.");
         }
       }
-      _request.N = number;
+
+      if (number > 0)
+        _request.N = number;
     }
 
-    public async Task GenerateToFile(string filename)
+    public async Task<ImageResponse?> Generate()
     {
+      if (string.IsNullOrWhiteSpace(_request.Prompt))
+      {
+        return null;
+      }
+      if (_request.N < 0 || _request.N > 3)
+      {
+        return null;
+      }
+      try
+      {
+        var response = await _httpClient.PostAsJsonAsync(_endpoint, _request);
+        var responseBody = await response.Content.ReadAsStringAsync();
+        var responseObject = JsonSerializer.Deserialize<ImageResponse>(responseBody, new JsonSerializerOptions
+        {
+          PropertyNameCaseInsensitive = true
+        });
 
+        if (!response.IsSuccessStatusCode)
+        {
+          Console.WriteLine($"Http error: {response.StatusCode}");
+          Console.WriteLine($"Details: {responseObject}");
+        }
+
+        return responseObject;
+      }
+      catch (Exception ex)
+      {
+        Console.WriteLine($"Error: {ex.Message}");
+      }
+      return null;
+    }
+
+    public async Task GenerateToFile(string destDir, GenerationMode gMode)
+    {
+      ImageResponse? imageResponse = await Generate();
+      if (imageResponse == null)
+      {
+        return;
+      }
+      if (!ValidateDirectory(destDir))
+      {
+        return;
+      }
+
+      try
+      {
+        for (int i = 0; i < imageResponse.Data.Length; i++)
+        {
+          var dataItem = imageResponse.Data[i];
+          string filename = $"{_model}-image-{imageResponse.Created}-{i}{GenerationModeDescription.get(gMode)}";
+          string path = Path.Join(destDir, filename);
+          if (dataItem is ImageData imageData)
+          {
+
+            HttpResponseMessage response = await _httpClient.GetAsync(imageData.Url);
+            response.EnsureSuccessStatusCode();
+            byte[] image = await response.Content.ReadAsByteArrayAsync();
+            await File.WriteAllBytesAsync(path, image);
+            Console.WriteLine($"Image downloaded and saved successfully in {filename}");
+
+          }
+          else if (dataItem is ErrorData errorData)
+          {
+            Console.WriteLine($"Image {i}.  generation resulted in error: {errorData.Code}");
+            Console.WriteLine($"Error message: {errorData.Message}");
+          }
+
+        }
+      }
+      catch (Exception ex)
+      {
+        Console.WriteLine($"Error occured: {ex.Message}");
+      }
+    }
+
+    private bool ValidateDirectory(string destDir)
+    {
+      if (string.IsNullOrWhiteSpace(destDir))
+      {
+        Console.WriteLine("Validation error: directory name is null or whitespace");
+        return false;
+      }
+      if (Path.GetInvalidPathChars().Any(x => destDir.Contains(x)))
+      {
+        Console.WriteLine("Validation error: directory name contains illegal characters");
+        return false;
+      }
+      if (!Directory.Exists(destDir))
+      {
+        Directory.CreateDirectory(destDir);
+      }
+      return true;
     }
 
   }
