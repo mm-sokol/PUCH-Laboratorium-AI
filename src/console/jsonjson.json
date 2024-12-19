@@ -1,0 +1,3399 @@
+{
+  "ServiceVersion": "2023-07-31",
+  "ModelId": "DotChat-Receipt-Model",
+  "Content": "GREEN FIELD 5305 E PACIFIC COAST HWY Long Beach, CA 90804 (562) 597-0906\nServer: Francis Station: 3\nOrder #: 69923\nDine In\nTable: B11\nGuests: 2\n1 Coffee\n3.00\n2 Lunch\n45.90\n1 Coke\n3.00\nSUB TOTAL:\n51.90\nTax 1:\n4.68\nTOTAL :\n$56.58\n5/26/2016 12:53:10 PM\nTHANK YOU!",
+  "Pages": [
+    {
+      "Unit": 0,
+      "PageNumber": 1,
+      "Angle": 0.6329316,
+      "Width": 750.0,
+      "Height": 1000.0,
+      "Spans": [
+        {
+          "Index": 0,
+          "Length": 260
+        }
+      ],
+      "Words": [
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 340.0,
+              "Y": 273.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 394.0,
+              "Y": 273.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 393.0,
+              "Y": 308.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 339.0,
+              "Y": 307.0
+            }
+          ],
+          "Content": "GREEN",
+          "Span": {
+            "Index": 0,
+            "Length": 5
+          },
+          "Confidence": 0.993
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 400.0,
+              "Y": 273.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 463.0,
+              "Y": 274.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 463.0,
+              "Y": 308.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 400.0,
+              "Y": 308.0
+            }
+          ],
+          "Content": "FIELD",
+          "Span": {
+            "Index": 6,
+            "Length": 5
+          },
+          "Confidence": 0.989
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 272.0,
+              "Y": 309.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 316.0,
+              "Y": 309.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 315.0,
+              "Y": 330.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 271.0,
+              "Y": 329.0
+            }
+          ],
+          "Content": "5305",
+          "Span": {
+            "Index": 12,
+            "Length": 4
+          },
+          "Confidence": 0.987
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 328.0,
+              "Y": 309.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 338.0,
+              "Y": 310.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 338.0,
+              "Y": 330.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 328.0,
+              "Y": 330.0
+            }
+          ],
+          "Content": "E",
+          "Span": {
+            "Index": 17,
+            "Length": 1
+          },
+          "Confidence": 0.994
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 350.0,
+              "Y": 310.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 427.0,
+              "Y": 310.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 427.0,
+              "Y": 331.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 350.0,
+              "Y": 330.0
+            }
+          ],
+          "Content": "PACIFIC",
+          "Span": {
+            "Index": 19,
+            "Length": 7
+          },
+          "Confidence": 0.992
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 440.0,
+              "Y": 311.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 495.0,
+              "Y": 311.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 495.0,
+              "Y": 332.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 439.0,
+              "Y": 331.0
+            }
+          ],
+          "Content": "COAST",
+          "Span": {
+            "Index": 27,
+            "Length": 5
+          },
+          "Confidence": 0.996
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 506.0,
+              "Y": 311.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 541.0,
+              "Y": 311.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 541.0,
+              "Y": 332.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 506.0,
+              "Y": 332.0
+            }
+          ],
+          "Content": "HWY",
+          "Span": {
+            "Index": 33,
+            "Length": 3
+          },
+          "Confidence": 0.996
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 293.0,
+              "Y": 334.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 337.0,
+              "Y": 335.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 337.0,
+              "Y": 355.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 293.0,
+              "Y": 355.0
+            }
+          ],
+          "Content": "Long",
+          "Span": {
+            "Index": 37,
+            "Length": 4
+          },
+          "Confidence": 0.992
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 350.0,
+              "Y": 335.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 413.0,
+              "Y": 335.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 413.0,
+              "Y": 356.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 350.0,
+              "Y": 355.0
+            }
+          ],
+          "Content": "Beach,",
+          "Span": {
+            "Index": 42,
+            "Length": 6
+          },
+          "Confidence": 0.993
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 427.0,
+              "Y": 335.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 449.0,
+              "Y": 335.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 449.0,
+              "Y": 356.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 427.0,
+              "Y": 356.0
+            }
+          ],
+          "Content": "CA",
+          "Span": {
+            "Index": 49,
+            "Length": 2
+          },
+          "Confidence": 0.996
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 462.0,
+              "Y": 335.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 518.0,
+              "Y": 336.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 518.0,
+              "Y": 357.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 461.0,
+              "Y": 356.0
+            }
+          ],
+          "Content": "90804",
+          "Span": {
+            "Index": 52,
+            "Length": 5
+          },
+          "Confidence": 0.889
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 327.0,
+              "Y": 359.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 380.0,
+              "Y": 359.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 380.0,
+              "Y": 380.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 327.0,
+              "Y": 379.0
+            }
+          ],
+          "Content": "(562)",
+          "Span": {
+            "Index": 58,
+            "Length": 5
+          },
+          "Confidence": 0.989
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 394.0,
+              "Y": 359.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 484.0,
+              "Y": 360.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 484.0,
+              "Y": 381.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 394.0,
+              "Y": 380.0
+            }
+          ],
+          "Content": "597-0906",
+          "Span": {
+            "Index": 64,
+            "Length": 8
+          },
+          "Confidence": 0.993
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 176.0,
+              "Y": 407.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 254.0,
+              "Y": 408.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 254.0,
+              "Y": 429.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 176.0,
+              "Y": 427.0
+            }
+          ],
+          "Content": "Server:",
+          "Span": {
+            "Index": 73,
+            "Length": 7
+          },
+          "Confidence": 0.987
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 268.0,
+              "Y": 409.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 348.0,
+              "Y": 410.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 348.0,
+              "Y": 430.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 268.0,
+              "Y": 429.0
+            }
+          ],
+          "Content": "Francis",
+          "Span": {
+            "Index": 81,
+            "Length": 7
+          },
+          "Confidence": 0.994
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 517.0,
+              "Y": 412.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 609.0,
+              "Y": 411.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 610.0,
+              "Y": 431.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 517.0,
+              "Y": 432.0
+            }
+          ],
+          "Content": "Station:",
+          "Span": {
+            "Index": 89,
+            "Length": 8
+          },
+          "Confidence": 0.992
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 625.0,
+              "Y": 410.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 638.0,
+              "Y": 410.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 638.0,
+              "Y": 431.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 625.0,
+              "Y": 431.0
+            }
+          ],
+          "Content": "3",
+          "Span": {
+            "Index": 98,
+            "Length": 1
+          },
+          "Confidence": 0.989
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 173.0,
+              "Y": 458.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 230.0,
+              "Y": 459.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 229.0,
+              "Y": 479.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 173.0,
+              "Y": 479.0
+            }
+          ],
+          "Content": "Order",
+          "Span": {
+            "Index": 100,
+            "Length": 5
+          },
+          "Confidence": 0.996
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 243.0,
+              "Y": 459.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 263.0,
+              "Y": 459.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 263.0,
+              "Y": 480.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 243.0,
+              "Y": 480.0
+            }
+          ],
+          "Content": "#:",
+          "Span": {
+            "Index": 106,
+            "Length": 2
+          },
+          "Confidence": 0.961
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 277.0,
+              "Y": 460.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 335.0,
+              "Y": 460.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 335.0,
+              "Y": 481.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 277.0,
+              "Y": 480.0
+            }
+          ],
+          "Content": "69923",
+          "Span": {
+            "Index": 109,
+            "Length": 5
+          },
+          "Confidence": 0.995
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 553.0,
+              "Y": 463.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 601.0,
+              "Y": 463.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 601.0,
+              "Y": 483.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 553.0,
+              "Y": 484.0
+            }
+          ],
+          "Content": "Dine",
+          "Span": {
+            "Index": 115,
+            "Length": 4
+          },
+          "Confidence": 0.992
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 619.0,
+              "Y": 463.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 640.0,
+              "Y": 463.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 640.0,
+              "Y": 483.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 619.0,
+              "Y": 483.0
+            }
+          ],
+          "Content": "In",
+          "Span": {
+            "Index": 120,
+            "Length": 2
+          },
+          "Confidence": 0.954
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 173.0,
+              "Y": 483.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 238.0,
+              "Y": 485.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 238.0,
+              "Y": 506.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 172.0,
+              "Y": 504.0
+            }
+          ],
+          "Content": "Table:",
+          "Span": {
+            "Index": 123,
+            "Length": 6
+          },
+          "Confidence": 0.993
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 253.0,
+              "Y": 485.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 286.0,
+              "Y": 485.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 286.0,
+              "Y": 506.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 253.0,
+              "Y": 506.0
+            }
+          ],
+          "Content": "B11",
+          "Span": {
+            "Index": 130,
+            "Length": 3
+          },
+          "Confidence": 0.993
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 530.0,
+              "Y": 489.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 612.0,
+              "Y": 489.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 612.0,
+              "Y": 510.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 530.0,
+              "Y": 510.0
+            }
+          ],
+          "Content": "Guests:",
+          "Span": {
+            "Index": 134,
+            "Length": 7
+          },
+          "Confidence": 0.991
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 628.0,
+              "Y": 489.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 641.0,
+              "Y": 489.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 641.0,
+              "Y": 510.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 628.0,
+              "Y": 510.0
+            }
+          ],
+          "Content": "2",
+          "Span": {
+            "Index": 142,
+            "Length": 1
+          },
+          "Confidence": 0.993
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 169.0,
+              "Y": 537.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 176.0,
+              "Y": 537.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 176.0,
+              "Y": 558.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 169.0,
+              "Y": 558.0
+            }
+          ],
+          "Content": "1",
+          "Span": {
+            "Index": 144,
+            "Length": 1
+          },
+          "Confidence": 0.945
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 192.0,
+              "Y": 537.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 262.0,
+              "Y": 539.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 262.0,
+              "Y": 559.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 191.0,
+              "Y": 558.0
+            }
+          ],
+          "Content": "Coffee",
+          "Span": {
+            "Index": 146,
+            "Length": 6
+          },
+          "Confidence": 0.995
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 591.0,
+              "Y": 543.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 643.0,
+              "Y": 543.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 643.0,
+              "Y": 564.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 591.0,
+              "Y": 564.0
+            }
+          ],
+          "Content": "3.00",
+          "Span": {
+            "Index": 153,
+            "Length": 4
+          },
+          "Confidence": 0.992
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 165.0,
+              "Y": 564.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 177.0,
+              "Y": 564.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 176.0,
+              "Y": 585.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 165.0,
+              "Y": 585.0
+            }
+          ],
+          "Content": "2",
+          "Span": {
+            "Index": 158,
+            "Length": 1
+          },
+          "Confidence": 0.992
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 191.0,
+              "Y": 564.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 249.0,
+              "Y": 565.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 249.0,
+              "Y": 586.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 190.0,
+              "Y": 585.0
+            }
+          ],
+          "Content": "Lunch",
+          "Span": {
+            "Index": 160,
+            "Length": 5
+          },
+          "Confidence": 0.992
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 580.0,
+              "Y": 571.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 644.0,
+              "Y": 571.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 644.0,
+              "Y": 593.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 580.0,
+              "Y": 593.0
+            }
+          ],
+          "Content": "45.90",
+          "Span": {
+            "Index": 166,
+            "Length": 5
+          },
+          "Confidence": 0.994
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 165.0,
+              "Y": 592.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 172.0,
+              "Y": 592.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 172.0,
+              "Y": 613.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 165.0,
+              "Y": 612.0
+            }
+          ],
+          "Content": "1",
+          "Span": {
+            "Index": 172,
+            "Length": 1
+          },
+          "Confidence": 0.975
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 188.0,
+              "Y": 592.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 235.0,
+              "Y": 592.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 235.0,
+              "Y": 613.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 188.0,
+              "Y": 613.0
+            }
+          ],
+          "Content": "Coke",
+          "Span": {
+            "Index": 174,
+            "Length": 4
+          },
+          "Confidence": 0.988
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 593.0,
+              "Y": 599.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 645.0,
+              "Y": 599.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 645.0,
+              "Y": 621.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 593.0,
+              "Y": 621.0
+            }
+          ],
+          "Content": "3.00",
+          "Span": {
+            "Index": 179,
+            "Length": 4
+          },
+          "Confidence": 0.992
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 158.0,
+              "Y": 647.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 195.0,
+              "Y": 647.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 194.0,
+              "Y": 670.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 158.0,
+              "Y": 669.0
+            }
+          ],
+          "Content": "SUB",
+          "Span": {
+            "Index": 184,
+            "Length": 3
+          },
+          "Confidence": 0.992
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 210.0,
+              "Y": 647.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 278.0,
+              "Y": 648.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 278.0,
+              "Y": 671.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 209.0,
+              "Y": 670.0
+            }
+          ],
+          "Content": "TOTAL:",
+          "Span": {
+            "Index": 188,
+            "Length": 6
+          },
+          "Confidence": 0.953
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 583.0,
+              "Y": 656.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 648.0,
+              "Y": 657.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 648.0,
+              "Y": 679.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 583.0,
+              "Y": 679.0
+            }
+          ],
+          "Content": "51.90",
+          "Span": {
+            "Index": 195,
+            "Length": 5
+          },
+          "Confidence": 0.997
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 158.0,
+              "Y": 676.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 193.0,
+              "Y": 676.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 193.0,
+              "Y": 698.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 158.0,
+              "Y": 698.0
+            }
+          ],
+          "Content": "Tax",
+          "Span": {
+            "Index": 201,
+            "Length": 3
+          },
+          "Confidence": 0.994
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 209.0,
+              "Y": 676.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 228.0,
+              "Y": 676.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 228.0,
+              "Y": 699.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 209.0,
+              "Y": 698.0
+            }
+          ],
+          "Content": "1:",
+          "Span": {
+            "Index": 205,
+            "Length": 2
+          },
+          "Confidence": 0.94
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 596.0,
+              "Y": 686.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 649.0,
+              "Y": 686.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 649.0,
+              "Y": 709.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 596.0,
+              "Y": 708.0
+            }
+          ],
+          "Content": "4.68",
+          "Span": {
+            "Index": 208,
+            "Length": 4
+          },
+          "Confidence": 0.848
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 152.0,
+              "Y": 736.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 200.0,
+              "Y": 737.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 200.0,
+              "Y": 780.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 152.0,
+              "Y": 780.0
+            }
+          ],
+          "Content": "TOTAL",
+          "Span": {
+            "Index": 213,
+            "Length": 5
+          },
+          "Confidence": 0.944
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 209.0,
+              "Y": 737.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 225.0,
+              "Y": 737.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 225.0,
+              "Y": 780.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 209.0,
+              "Y": 780.0
+            }
+          ],
+          "Content": ":",
+          "Span": {
+            "Index": 219,
+            "Length": 1
+          },
+          "Confidence": 0.935
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 574.0,
+              "Y": 749.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 655.0,
+              "Y": 750.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 655.0,
+              "Y": 795.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 574.0,
+              "Y": 794.0
+            }
+          ],
+          "Content": "$56.58",
+          "Span": {
+            "Index": 221,
+            "Length": 6
+          },
+          "Confidence": 0.937
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 257.0,
+              "Y": 815.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 370.0,
+              "Y": 819.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 369.0,
+              "Y": 846.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 257.0,
+              "Y": 842.0
+            }
+          ],
+          "Content": "5/26/2016",
+          "Span": {
+            "Index": 228,
+            "Length": 9
+          },
+          "Confidence": 0.993
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 386.0,
+              "Y": 820.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 484.0,
+              "Y": 823.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 484.0,
+              "Y": 849.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 386.0,
+              "Y": 846.0
+            }
+          ],
+          "Content": "12:53:10",
+          "Span": {
+            "Index": 238,
+            "Length": 8
+          },
+          "Confidence": 0.992
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 498.0,
+              "Y": 823.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 526.0,
+              "Y": 824.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 526.0,
+              "Y": 851.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 498.0,
+              "Y": 850.0
+            }
+          ],
+          "Content": "PM",
+          "Span": {
+            "Index": 247,
+            "Length": 2
+          },
+          "Confidence": 0.999
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 331.0,
+              "Y": 882.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 396.0,
+              "Y": 883.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 396.0,
+              "Y": 910.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 331.0,
+              "Y": 908.0
+            }
+          ],
+          "Content": "THANK",
+          "Span": {
+            "Index": 250,
+            "Length": 5
+          },
+          "Confidence": 0.993
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 409.0,
+              "Y": 884.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 459.0,
+              "Y": 885.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 459.0,
+              "Y": 911.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 408.0,
+              "Y": 910.0
+            }
+          ],
+          "Content": "YOU!",
+          "Span": {
+            "Index": 256,
+            "Length": 4
+          },
+          "Confidence": 0.94
+        }
+      ],
+      "SelectionMarks": [],
+      "Lines": [
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 340.0,
+              "Y": 273.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 463.0,
+              "Y": 274.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 462.0,
+              "Y": 308.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 339.0,
+              "Y": 307.0
+            }
+          ],
+          "Content": "GREEN FIELD",
+          "Spans": [
+            {
+              "Index": 0,
+              "Length": 11
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 272.0,
+              "Y": 309.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 541.0,
+              "Y": 311.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 541.0,
+              "Y": 332.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 271.0,
+              "Y": 330.0
+            }
+          ],
+          "Content": "5305 E PACIFIC COAST HWY",
+          "Spans": [
+            {
+              "Index": 12,
+              "Length": 24
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 293.0,
+              "Y": 334.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 518.0,
+              "Y": 336.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 518.0,
+              "Y": 356.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 293.0,
+              "Y": 355.0
+            }
+          ],
+          "Content": "Long Beach, CA 90804",
+          "Spans": [
+            {
+              "Index": 37,
+              "Length": 20
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 327.0,
+              "Y": 358.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 484.0,
+              "Y": 360.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 484.0,
+              "Y": 381.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 327.0,
+              "Y": 379.0
+            }
+          ],
+          "Content": "(562) 597-0906",
+          "Spans": [
+            {
+              "Index": 58,
+              "Length": 14
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 176.0,
+              "Y": 407.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 348.0,
+              "Y": 410.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 348.0,
+              "Y": 430.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 176.0,
+              "Y": 427.0
+            }
+          ],
+          "Content": "Server: Francis",
+          "Spans": [
+            {
+              "Index": 73,
+              "Length": 15
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 517.0,
+              "Y": 412.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 638.0,
+              "Y": 410.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 638.0,
+              "Y": 431.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 517.0,
+              "Y": 432.0
+            }
+          ],
+          "Content": "Station: 3",
+          "Spans": [
+            {
+              "Index": 89,
+              "Length": 10
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 173.0,
+              "Y": 458.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 334.0,
+              "Y": 460.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 334.0,
+              "Y": 481.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 173.0,
+              "Y": 478.0
+            }
+          ],
+          "Content": "Order #: 69923",
+          "Spans": [
+            {
+              "Index": 100,
+              "Length": 14
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 553.0,
+              "Y": 463.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 640.0,
+              "Y": 463.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 640.0,
+              "Y": 483.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 553.0,
+              "Y": 483.0
+            }
+          ],
+          "Content": "Dine In",
+          "Spans": [
+            {
+              "Index": 115,
+              "Length": 7
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 173.0,
+              "Y": 483.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 285.0,
+              "Y": 485.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 285.0,
+              "Y": 506.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 172.0,
+              "Y": 504.0
+            }
+          ],
+          "Content": "Table: B11",
+          "Spans": [
+            {
+              "Index": 123,
+              "Length": 10
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 530.0,
+              "Y": 489.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 640.0,
+              "Y": 488.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 641.0,
+              "Y": 509.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 530.0,
+              "Y": 510.0
+            }
+          ],
+          "Content": "Guests: 2",
+          "Spans": [
+            {
+              "Index": 134,
+              "Length": 9
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 169.0,
+              "Y": 537.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 261.0,
+              "Y": 539.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 261.0,
+              "Y": 559.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 169.0,
+              "Y": 557.0
+            }
+          ],
+          "Content": "1 Coffee",
+          "Spans": [
+            {
+              "Index": 144,
+              "Length": 8
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 591.0,
+              "Y": 543.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 642.0,
+              "Y": 543.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 642.0,
+              "Y": 564.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 591.0,
+              "Y": 564.0
+            }
+          ],
+          "Content": "3.00",
+          "Spans": [
+            {
+              "Index": 153,
+              "Length": 4
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 165.0,
+              "Y": 564.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 249.0,
+              "Y": 565.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 248.0,
+              "Y": 586.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 165.0,
+              "Y": 585.0
+            }
+          ],
+          "Content": "2 Lunch",
+          "Spans": [
+            {
+              "Index": 158,
+              "Length": 7
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 580.0,
+              "Y": 571.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 644.0,
+              "Y": 571.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 644.0,
+              "Y": 592.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 580.0,
+              "Y": 592.0
+            }
+          ],
+          "Content": "45.90",
+          "Spans": [
+            {
+              "Index": 166,
+              "Length": 5
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 165.0,
+              "Y": 591.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 235.0,
+              "Y": 592.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 235.0,
+              "Y": 613.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 165.0,
+              "Y": 612.0
+            }
+          ],
+          "Content": "1 Coke",
+          "Spans": [
+            {
+              "Index": 172,
+              "Length": 6
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 593.0,
+              "Y": 599.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 645.0,
+              "Y": 599.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 645.0,
+              "Y": 621.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 593.0,
+              "Y": 621.0
+            }
+          ],
+          "Content": "3.00",
+          "Spans": [
+            {
+              "Index": 179,
+              "Length": 4
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 158.0,
+              "Y": 647.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 278.0,
+              "Y": 648.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 277.0,
+              "Y": 670.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 158.0,
+              "Y": 669.0
+            }
+          ],
+          "Content": "SUB TOTAL:",
+          "Spans": [
+            {
+              "Index": 184,
+              "Length": 10
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 583.0,
+              "Y": 656.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 647.0,
+              "Y": 657.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 647.0,
+              "Y": 679.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 582.0,
+              "Y": 678.0
+            }
+          ],
+          "Content": "51.90",
+          "Spans": [
+            {
+              "Index": 195,
+              "Length": 5
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 158.0,
+              "Y": 676.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 228.0,
+              "Y": 676.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 228.0,
+              "Y": 698.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 158.0,
+              "Y": 697.0
+            }
+          ],
+          "Content": "Tax 1:",
+          "Spans": [
+            {
+              "Index": 201,
+              "Length": 6
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 596.0,
+              "Y": 686.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 649.0,
+              "Y": 686.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 649.0,
+              "Y": 709.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 596.0,
+              "Y": 708.0
+            }
+          ],
+          "Content": "4.68",
+          "Spans": [
+            {
+              "Index": 208,
+              "Length": 4
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 152.0,
+              "Y": 736.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 225.0,
+              "Y": 737.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 225.0,
+              "Y": 780.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 152.0,
+              "Y": 779.0
+            }
+          ],
+          "Content": "TOTAL :",
+          "Spans": [
+            {
+              "Index": 213,
+              "Length": 7
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 574.0,
+              "Y": 749.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 655.0,
+              "Y": 750.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 654.0,
+              "Y": 794.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 573.0,
+              "Y": 793.0
+            }
+          ],
+          "Content": "$56.58",
+          "Spans": [
+            {
+              "Index": 221,
+              "Length": 6
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 257.0,
+              "Y": 815.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 526.0,
+              "Y": 824.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 525.0,
+              "Y": 851.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 257.0,
+              "Y": 842.0
+            }
+          ],
+          "Content": "5/26/2016 12:53:10 PM",
+          "Spans": [
+            {
+              "Index": 228,
+              "Length": 21
+            }
+          ]
+        },
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 331.0,
+              "Y": 882.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 459.0,
+              "Y": 885.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 458.0,
+              "Y": 911.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 331.0,
+              "Y": 908.0
+            }
+          ],
+          "Content": "THANK YOU!",
+          "Spans": [
+            {
+              "Index": 250,
+              "Length": 10
+            }
+          ]
+        }
+      ],
+      "Barcodes": [],
+      "Formulas": []
+    }
+  ],
+  "Paragraphs": [],
+  "Tables": [
+    {
+      "RowCount": 2,
+      "ColumnCount": 2,
+      "Cells": [
+        {
+          "Kind": {},
+          "RowSpan": 1,
+          "ColumnSpan": 1,
+          "RowIndex": 0,
+          "ColumnIndex": 0,
+          "Content": "Order #: 69923",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 153.0,
+                  "Y": 446.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 432.0,
+                  "Y": 450.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 432.0,
+                  "Y": 483.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 152.0,
+                  "Y": 480.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 100,
+              "Length": 14
+            }
+          ]
+        },
+        {
+          "Kind": {},
+          "RowSpan": 1,
+          "ColumnSpan": 1,
+          "RowIndex": 0,
+          "ColumnIndex": 1,
+          "Content": "Dine In",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 432.0,
+                  "Y": 450.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 648.0,
+                  "Y": 453.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 648.0,
+                  "Y": 486.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 432.0,
+                  "Y": 483.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 115,
+              "Length": 7
+            }
+          ]
+        },
+        {
+          "Kind": {},
+          "RowSpan": 1,
+          "ColumnSpan": 1,
+          "RowIndex": 1,
+          "ColumnIndex": 0,
+          "Content": "Table: B11",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 152.0,
+                  "Y": 480.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 432.0,
+                  "Y": 483.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 431.0,
+                  "Y": 525.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 150.0,
+                  "Y": 521.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 123,
+              "Length": 10
+            }
+          ]
+        },
+        {
+          "Kind": {},
+          "RowSpan": 1,
+          "ColumnSpan": 1,
+          "RowIndex": 1,
+          "ColumnIndex": 1,
+          "Content": "Guests: 2",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 432.0,
+                  "Y": 483.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 648.0,
+                  "Y": 486.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 648.0,
+                  "Y": 527.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 431.0,
+                  "Y": 525.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 134,
+              "Length": 9
+            }
+          ]
+        }
+      ],
+      "BoundingRegions": [
+        {
+          "PageNumber": 1,
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 164.0,
+              "Y": 456.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 645.0,
+              "Y": 459.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 644.0,
+              "Y": 512.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 163.0,
+              "Y": 510.0
+            }
+          ]
+        }
+      ],
+      "Spans": [
+        {
+          "Index": 100,
+          "Length": 43
+        }
+      ]
+    },
+    {
+      "RowCount": 3,
+      "ColumnCount": 2,
+      "Cells": [
+        {
+          "Kind": {},
+          "RowSpan": 1,
+          "ColumnSpan": 1,
+          "RowIndex": 0,
+          "ColumnIndex": 0,
+          "Content": "1 Coffee",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 160.0,
+                  "Y": 523.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 413.0,
+                  "Y": 528.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 413.0,
+                  "Y": 565.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 158.0,
+                  "Y": 559.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 144,
+              "Length": 8
+            }
+          ]
+        },
+        {
+          "Kind": {},
+          "RowSpan": 1,
+          "ColumnSpan": 1,
+          "RowIndex": 0,
+          "ColumnIndex": 1,
+          "Content": "3.00",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 413.0,
+                  "Y": 528.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 651.0,
+                  "Y": 532.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 652.0,
+                  "Y": 569.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 413.0,
+                  "Y": 565.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 153,
+              "Length": 4
+            }
+          ]
+        },
+        {
+          "Kind": {},
+          "RowSpan": 1,
+          "ColumnSpan": 1,
+          "RowIndex": 1,
+          "ColumnIndex": 0,
+          "Content": "2 Lunch",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 158.0,
+                  "Y": 559.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 413.0,
+                  "Y": 565.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 414.0,
+                  "Y": 593.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 156.0,
+                  "Y": 586.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 158,
+              "Length": 7
+            }
+          ]
+        },
+        {
+          "Kind": {},
+          "RowSpan": 1,
+          "ColumnSpan": 1,
+          "RowIndex": 1,
+          "ColumnIndex": 1,
+          "Content": "45.90",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 413.0,
+                  "Y": 565.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 652.0,
+                  "Y": 569.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 653.0,
+                  "Y": 597.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 414.0,
+                  "Y": 593.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 166,
+              "Length": 5
+            }
+          ]
+        },
+        {
+          "Kind": {},
+          "RowSpan": 1,
+          "ColumnSpan": 1,
+          "RowIndex": 2,
+          "ColumnIndex": 0,
+          "Content": "1 Coke",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 156.0,
+                  "Y": 586.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 414.0,
+                  "Y": 593.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 414.0,
+                  "Y": 627.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 154.0,
+                  "Y": 622.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 172,
+              "Length": 6
+            }
+          ]
+        },
+        {
+          "Kind": {},
+          "RowSpan": 1,
+          "ColumnSpan": 1,
+          "RowIndex": 2,
+          "ColumnIndex": 1,
+          "Content": "3.00",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 414.0,
+                  "Y": 593.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 653.0,
+                  "Y": 597.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 654.0,
+                  "Y": 631.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 414.0,
+                  "Y": 627.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 179,
+              "Length": 4
+            }
+          ]
+        }
+      ],
+      "BoundingRegions": [
+        {
+          "PageNumber": 1,
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 156.0,
+              "Y": 534.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 650.0,
+              "Y": 539.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 647.0,
+              "Y": 622.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 153.0,
+              "Y": 617.0
+            }
+          ]
+        }
+      ],
+      "Spans": [
+        {
+          "Index": 144,
+          "Length": 39
+        }
+      ]
+    },
+    {
+      "RowCount": 3,
+      "ColumnCount": 2,
+      "Cells": [
+        {
+          "Kind": {},
+          "RowSpan": 1,
+          "ColumnSpan": 1,
+          "RowIndex": 0,
+          "ColumnIndex": 0,
+          "Content": "SUB TOTAL:",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 144.0,
+                  "Y": 633.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 414.0,
+                  "Y": 641.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 414.0,
+                  "Y": 679.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 142.0,
+                  "Y": 671.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 184,
+              "Length": 10
+            }
+          ]
+        },
+        {
+          "Kind": {},
+          "RowSpan": 1,
+          "ColumnSpan": 1,
+          "RowIndex": 0,
+          "ColumnIndex": 1,
+          "Content": "51.90",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 414.0,
+                  "Y": 641.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 662.0,
+                  "Y": 648.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 663.0,
+                  "Y": 686.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 414.0,
+                  "Y": 679.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 195,
+              "Length": 5
+            }
+          ]
+        },
+        {
+          "Kind": {},
+          "RowSpan": 1,
+          "ColumnSpan": 1,
+          "RowIndex": 1,
+          "ColumnIndex": 0,
+          "Content": "Tax 1:",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 142.0,
+                  "Y": 671.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 414.0,
+                  "Y": 679.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 414.0,
+                  "Y": 724.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 140.0,
+                  "Y": 715.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 201,
+              "Length": 6
+            }
+          ]
+        },
+        {
+          "Kind": {},
+          "RowSpan": 1,
+          "ColumnSpan": 1,
+          "RowIndex": 1,
+          "ColumnIndex": 1,
+          "Content": "4.68",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 414.0,
+                  "Y": 679.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 663.0,
+                  "Y": 686.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 664.0,
+                  "Y": 732.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 414.0,
+                  "Y": 724.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 208,
+              "Length": 4
+            }
+          ]
+        },
+        {
+          "Kind": {},
+          "RowSpan": 1,
+          "ColumnSpan": 1,
+          "RowIndex": 2,
+          "ColumnIndex": 0,
+          "Content": "TOTAL :",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 140.0,
+                  "Y": 715.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 414.0,
+                  "Y": 724.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 414.0,
+                  "Y": 803.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 136.0,
+                  "Y": 792.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 213,
+              "Length": 7
+            }
+          ]
+        },
+        {
+          "Kind": {},
+          "RowSpan": 1,
+          "ColumnSpan": 1,
+          "RowIndex": 2,
+          "ColumnIndex": 1,
+          "Content": "$56.58",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 414.0,
+                  "Y": 724.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 664.0,
+                  "Y": 732.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 665.0,
+                  "Y": 812.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 414.0,
+                  "Y": 803.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 221,
+              "Length": 6
+            }
+          ]
+        }
+      ],
+      "BoundingRegions": [
+        {
+          "PageNumber": 1,
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 151.0,
+              "Y": 644.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 660.0,
+              "Y": 654.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 657.0,
+              "Y": 800.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 148.0,
+              "Y": 789.0
+            }
+          ]
+        }
+      ],
+      "Spans": [
+        {
+          "Index": 184,
+          "Length": 43
+        }
+      ]
+    }
+  ],
+  "KeyValuePairs": [],
+  "Styles": [],
+  "Languages": [],
+  "Documents": [
+    {
+      "DocumentType": "DotChat-Receipt-Model",
+      "BoundingRegions": [
+        {
+          "PageNumber": 1,
+          "BoundingPolygon": [
+            {
+              "IsEmpty": true,
+              "X": 0.0,
+              "Y": 0.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 750.0,
+              "Y": 0.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 750.0,
+              "Y": 1000.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 0.0,
+              "Y": 1000.0
+            }
+          ]
+        }
+      ],
+      "Spans": [
+        {
+          "Index": 0,
+          "Length": 260
+        }
+      ],
+      "Fields": {
+        "MerchantAddress": {
+          "FieldType": 1,
+          "ExpectedFieldType": 1,
+          "Value": {},
+          "Content": "5305 E PACIFIC COAST HWY Long Beach, CA 90804",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 271.0,
+                  "Y": 308.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 541.0,
+                  "Y": 311.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 541.0,
+                  "Y": 357.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 271.0,
+                  "Y": 355.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 12,
+              "Length": 45
+            }
+          ],
+          "Confidence": 0.621
+        },
+        "TotalTax": {
+          "FieldType": 1,
+          "ExpectedFieldType": 1,
+          "Value": {},
+          "Content": "4.68",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 596.0,
+                  "Y": 686.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 649.0,
+                  "Y": 686.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 649.0,
+                  "Y": 709.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 596.0,
+                  "Y": 708.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 208,
+              "Length": 4
+            }
+          ],
+          "Confidence": 0.713
+        },
+        "Items": {
+          "FieldType": 7,
+          "ExpectedFieldType": 7,
+          "Value": {},
+          "Content": null,
+          "BoundingRegions": [],
+          "Spans": [],
+          "Confidence": 0.702
+        },
+        "MerchantName": {
+          "FieldType": 1,
+          "ExpectedFieldType": 1,
+          "Value": {},
+          "Content": "GREEN FIELD",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 339.0,
+                  "Y": 272.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 463.0,
+                  "Y": 274.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 463.0,
+                  "Y": 309.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 339.0,
+                  "Y": 307.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 0,
+              "Length": 11
+            }
+          ],
+          "Confidence": 0.714
+        },
+        "Subtotal": {
+          "FieldType": 1,
+          "ExpectedFieldType": 1,
+          "Value": {},
+          "Content": "51.90",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 583.0,
+                  "Y": 656.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 648.0,
+                  "Y": 657.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 648.0,
+                  "Y": 679.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 583.0,
+                  "Y": 679.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 195,
+              "Length": 5
+            }
+          ],
+          "Confidence": 0.861
+        },
+        "TransactionDate": {
+          "FieldType": 2,
+          "ExpectedFieldType": 2,
+          "Value": {},
+          "Content": "5/26/2016",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 257.0,
+                  "Y": 815.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 370.0,
+                  "Y": 819.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 369.0,
+                  "Y": 846.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 256.0,
+                  "Y": 842.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 228,
+              "Length": 9
+            }
+          ],
+          "Confidence": 0.857
+        },
+        "TransactionTime": {
+          "FieldType": 0,
+          "ExpectedFieldType": 3,
+          "Value": {},
+          "Content": "12:53:10 PM",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 386.0,
+                  "Y": 819.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 527.0,
+                  "Y": 824.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 526.0,
+                  "Y": 851.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 385.0,
+                  "Y": 846.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 238,
+              "Length": 11
+            }
+          ],
+          "Confidence": 0.835
+        },
+        "MerchantPhoneNumber": {
+          "FieldType": 1,
+          "ExpectedFieldType": 1,
+          "Value": {},
+          "Content": "(562) 597-0906",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 327.0,
+                  "Y": 358.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 484.0,
+                  "Y": 360.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 484.0,
+                  "Y": 381.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 327.0,
+                  "Y": 379.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 58,
+              "Length": 14
+            }
+          ],
+          "Confidence": 0.849
+        },
+        "Total": {
+          "FieldType": 1,
+          "ExpectedFieldType": 1,
+          "Value": {},
+          "Content": "$56.58",
+          "BoundingRegions": [
+            {
+              "PageNumber": 1,
+              "BoundingPolygon": [
+                {
+                  "IsEmpty": false,
+                  "X": 574.0,
+                  "Y": 749.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 656.0,
+                  "Y": 750.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 655.0,
+                  "Y": 795.0
+                },
+                {
+                  "IsEmpty": false,
+                  "X": 573.0,
+                  "Y": 794.0
+                }
+              ]
+            }
+          ],
+          "Spans": [
+            {
+              "Index": 221,
+              "Length": 6
+            }
+          ],
+          "Confidence": 0.778
+        },
+        "Tip": {
+          "FieldType": 0,
+          "ExpectedFieldType": 1,
+          "Value": {},
+          "Content": null,
+          "BoundingRegions": [],
+          "Spans": [],
+          "Confidence": 0.954
+        }
+      },
+      "Confidence": 0.365
+    }
+  ]
+}

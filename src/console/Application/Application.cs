@@ -1,5 +1,6 @@
 using AIDotChat;
 using AzureCVision;
+using AzureDocumentAI;
 using Microsoft.Extensions.Configuration;
 using Sprache;
 using System.Text.RegularExpressions;
@@ -13,6 +14,7 @@ namespace AIDotChat
         private OpenAIService _service;
         private AzureCVService _visionService;
         private OpenAIPdfService _summaryService;
+        private AzureCDIReceiptService _receiptService;
 
         public Application()
         {
@@ -26,6 +28,7 @@ namespace AIDotChat
             _visionService = new AzureCVService(configuration);
             // Create service for summaries
             _summaryService = new OpenAIPdfService(configuration);
+            _receiptService = new AzureCDIReceiptService(configuration);
         }
 
         public string GetGreetings()
@@ -49,7 +52,12 @@ namespace AIDotChat
             greetings += " \\summarize [options] - creates summaries of pdf files with OpenAI\n";
             greetings += " \\summarize pdf \"<in filename>\" to \"<out filename>\"\n";
             greetings += " \\summarize dir \"<source path>\" to \"dest path>\"\n";
-            greetings += " \\summarize ... -v|--verbose - outputs summary to screen\n";
+            greetings += " \\summarize ... -v|--verbose - outputs summary to screen\n\n";
+
+            greetings += " \\receipt [options] - extract data from receipt image using Azure Custom Document Intelligence\n";
+            // greetings += " \\receipt jpg \"<in filename>\" to xlsx \"<out filename>\"\n";
+            greetings += " \\receipt jpg \"<in filename>\" to json \"<out filename>\"\n"; 
+            greetings += " \\receipt ... -v|--verbose - outputs data to the screen\n";
             greetings += " ...\n";
             return greetings;
         }
@@ -94,7 +102,8 @@ namespace AIDotChat
             }
         }
 
-        private bool ValidateSummaryCommand(string userInput, out SummaryMode mode, out string pdfSource, out string pdfDest, out bool verbose) {
+        private bool ValidateSummaryCommand(string userInput, out SummaryMode mode, out string pdfSource, out string pdfDest, out bool verbose)
+        {
             pdfSource = string.Empty;
             pdfDest = string.Empty;
             mode = SummaryMode.None;
@@ -115,14 +124,11 @@ namespace AIDotChat
                     return false;
 
                 pdfSource = match.Groups[3].Value;
-                Console.WriteLine($"Source {pdfSource}");
                 pdfDest = match.Groups[4].Value;
-                Console.WriteLine($"Dest {pdfDest}");
 
-                if (match.Groups[2].Value != null || match.Groups[5].Value != null)
+                if (!string.IsNullOrEmpty(match.Groups[2].Value) || !string.IsNullOrEmpty(match.Groups[5].Value)) {
                     verbose = true;
-
-
+                }
                 Console.WriteLine($"Requested pdf summary from {SummaryModeDescription.get(mode)}: {pdfSource} to {pdfDest}");
                 return true;
             }
@@ -130,6 +136,51 @@ namespace AIDotChat
             {
                 return false;
             }
+        }
+
+        private bool ValidateReceiptCommand(string userInput,
+            out ExtractionMode eMode, out string sourcePath,
+            out AzureDocumentAI.SaveMode sMode, out string destPath,
+            out bool verbose)
+        {
+
+            sourcePath = string.Empty;
+            destPath = string.Empty;
+            eMode = ExtractionMode.None;
+            sMode = AzureDocumentAI.SaveMode.None;
+            verbose = false;
+
+            string pattern = @"\\receipt\s+(-v|--verbose)?\s?(jpg)\s+""([^""]+)""\s+to\s+(json)\s+""([^""]+)""\s*(-v|--verbose)?\s?";
+            Match match = Regex.Match(userInput, pattern, RegexOptions.IgnoreCase);
+
+            if (!match.Success)
+            {
+                return false;
+            }
+
+            // Groups
+            // 1, 6) -v, --verbose
+            // 2) jpg
+            // 3) sourcePath
+            // 4) json (only option for now)
+            // 5) destPath
+
+            if (!string.IsNullOrEmpty(match.Groups[1].Value) || !string.IsNullOrEmpty(match.Groups[6].Value))
+            {
+                verbose = true;
+            }
+            if (match.Groups[2].Value == "jpg")
+            {
+                eMode = ExtractionMode.Jpg;
+            }
+            if (match.Groups[4].Value == "json")
+            {
+                sMode = AzureDocumentAI.SaveMode.Json;
+            }
+            sourcePath = match.Groups[3].Value;
+            destPath = match.Groups[5].Value;
+
+            return true;
         }
 
         public async Task run()
@@ -224,24 +275,53 @@ namespace AIDotChat
                             }
                             break;
                         case "\\summarize":
-                            if (words.Length < 5) {
+                            if (words.Length < 5)
+                            {
                                 Console.WriteLine("Not enough arguments provided");
                                 break;
                             }
-                            if (! ValidateSummaryCommand(userInput, out SummaryMode sMode, out string fileSource, out string fileDest, out bool verbose)) {
+                            if (!ValidateSummaryCommand(userInput, out SummaryMode sMode, out string fileSource, out string fileDest, out bool verbose))
+                            {
                                 Console.WriteLine("Command validation failed");
                                 break;
                             }
-                            try {
-                               await _summaryService.Summarize(fileSource, fileDest, sMode, verbose);
-                            } catch (Exception ex) {
+                            try
+                            {
+                                await _summaryService.Summarize(fileSource, fileDest, sMode, verbose);
+                            }
+                            catch (Exception ex)
+                            {
                                 Console.WriteLine($"Error occured: {ex.Message}");
                             }
                             break;
+                        case "\\receipt":
+                            if (words.Length < 6) {
+                                Console.WriteLine("Not enough arguments provided.");
+                                break;
+                            }
+                            // extracion mode currently unused
+                            if (!ValidateReceiptCommand(userInput, 
+                            out ExtractionMode eMode, out string sourcePath,
+                            out AzureDocumentAI.SaveMode receiptSaveMode, out string destPath,
+                            out bool reseiptVerbose
+                            )) {
+                                Console.WriteLine("Failed \\receipt command validation.");
+                                break;
+                            }
+                            try {
+                                await _receiptService.ExtractOne(
+                                    sourcePath, destPath, receiptSaveMode, reseiptVerbose
+                                );
+                            } catch (Exception ex) {
+                                Console.WriteLine($"Error occured while processing \\receipt command: {ex.Message}");
+                            }
+                            break;
+
+
                         default:
                             // Console.WriteLine("We are in the default");
                             var response = await _service.GetChatResponseAsync(userInput);
-                            Console.WriteLine(this._assistant + ": " + response);
+                            Console.WriteLine(_assistant + ": " + response);
                             break;
                     }
                 }

@@ -12,14 +12,14 @@ class Program
 
         var origWidth = Console.WindowWidth;
         var origHeight = Console.WindowHeight;
-        Console.WindowWidth = 100;
+        // Console.WindowWidth = 100;
 
         Console.WriteLine(app.GetGreetings());
 
         await app.run();
 
 
-        Console.SetWindowSize(origWidth, origHeight);
+        // Console.SetWindowSize(origWidth, origHeight);
     }
 
 }

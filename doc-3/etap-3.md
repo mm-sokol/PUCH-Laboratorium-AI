@@ -5,8 +5,8 @@ DotChat
   - [Storage Account](#4-tworzenie-storage-account)
   - [Blob Storage Container](#5-dodanie-kontenera-do-storage-account)
   - [Projekt w Document Intelligence Studio](#7-utworzenie-projektu-w-document-intelligence-studio)
-  - [Trenowanie modelu]()
-  - [Integracja z czatem]()
+  - [Trenowanie modelu](#8-trenowanie-modelu)
+  - [Integracja z czatem](#9-integracja-z-chatem)
 
 2. [temat 7: Generowanie obrazów na podstawie opisu](#2-generowanie-obrazów-na-podstawie-opisu)
 
@@ -148,6 +148,9 @@ Ponieważ projekt wymaga użycia `Blob Storage Container` został utworzony `Sto
   </tr>
 </table>
 
+*trenowanie modelu*
+![alt text](screens/1_doc_training/10_training_model.png)
+
 #### 9. Integracja z chatem
 - dodanie zależności
 
@@ -155,19 +158,247 @@ Ponieważ projekt wymaga użycia `Blob Storage Container` został utworzony `Sto
 dotnet add package Azure.AI.FormRecognizer
 ```
 
-- zapisanie kluczy 
+- zapisanie kluczy </br>
+Ze względu wykorzystania zasobu `Document Intelligence` w poprzedniej części projektu, dodany został tylko model Id do pliku `appsettings.json` </br>
 ```json
-
+  "AzureDocumentAI":{
+    "Endpoint": "<endpoint>",
+    "ApiKey": "<key>",
+    "Model": "DotChat-Receipt-Model"
+  }
 ```
 
-- stworzenie klasy serwisu: `AzureCDIReceiptService`
+- stworzenie klasy serwisu: `AzureCDIReceiptService` </br>
+Klasa będzie realizowała komunikację z API przez klienta `DocumentAnalysisClient`. Do wyboru będą dwie możliwości zapisu `xlsx` oraz `json`. </br>
+**Kluczowymi metodami klasy są:**
+  - konstruktor - odczytuje wartości klucza, endpointu, modelu z pliku konfiguracji
+```C#
+    public AzureCDIReceiptService(IConfiguration configuration)
+    {
+      _apiKey = configuration["AzureDocumentAI:ApiKey"] ?? "";
+      _endpoint = configuration["AzureDocumentAI:Endpoint"] ?? "";
+      _modelId = configuration["AzureDocumentAI:Model"] ?? "";
 
+      var credential = new AzureKeyCredential(_apiKey);
+      var uri = new Uri(_endpoint);
 
-- dodanie specjalnej komendy 
+      _client = new DocumentAnalysisClient(uri, credential);
+    }
+```
+
+  - ExtractOne - zlecająca analizę jednego pliku (obrazka jpg), realizująca wyświetlenie treści i zapis
+```C#
+    public async Task ExtractOne(
+      string sourcePath, 
+      string destPath, 
+      SaveMode mode, bool verbose
+      )
+    {
+      try
+      {
+        AnalyzeResult result = await ExtractReceipt(sourcePath);
+
+        if (verbose)
+        {
+          foreach (AnalyzedDocument document in result.Documents)
+          {
+            Console.WriteLine($"Document of type: {document.DocumentType}");
+            foreach (KeyValuePair<string, DocumentField> field in document.Fields)
+            {
+              string fieldName = field.Key;
+              DocumentField fieldValue = field.Value;
+              Console.WriteLine($"field: {fieldName}");
+              Console.WriteLine($"  - value: {fieldValue.Content}");
+              Console.WriteLine($"  - confidence: {fieldValue.Confidence} %");
+
+            }
+          }
+        }
+        else
+        {
+          Console.WriteLine($"Extracted receipt form {sourcePath} to {destPath}");
+        }
+
+        if (mode == SaveMode.Json && ValidateDestFilename(ref destPath, mode))
+        {
+          SaveReceiptAsJson(result, destPath);
+        }
+      }
+      catch (Exception ex)
+      {
+        Console.WriteLine($"Failed to process receipt: {sourcePath}, {ex.Message}");
+      }
+    }
+```
+
+  - ExtractReceipt - realizująca samą komunikację z API
+```C#
+    private async Task<AnalyzeResult> ExtractReceipt(string imageFile)
+    {
+      if (!File.Exists(imageFile))
+        throw new ArgumentException($"Path {imageFile} if not valid.");
+
+      using (var imageStream = new FileStream(imageFile, FileMode.Open))
+      {
+        var operation = await _client.AnalyzeDocumentAsync(
+            WaitUntil.Completed,
+            _modelId,
+            imageStream
+        );
+        if (operation == null)
+          throw new Exception("Error in ExtractReceipt: Analyze operation is null");
+        return operation.Value;
+      }
+    }
+```
+
+  - SaveReceiptAsJson - realizująca zapis do pliku `json`
+```C#
+    private void SaveReceiptAsJson(AnalyzeResult result, string filename)
+    {
+      string json = JsonConvert.SerializeObject(result, Formatting.Indented);
+      try
+      {
+        File.WriteAllText(filename, json);
+      }
+      catch (Exception ex)
+      {
+        Console.WriteLine($"An error occurred while writing json file: {ex.Message}");
+      }
+      Console.WriteLine($"Saved json file: {filename}");
+    }
+```
+
+- dodanie specjalnej komendy i obiektu `AzureCDIReceiptService` do aplikacji </br>
+Komenda musi być obsłużona w metodzie `run` klasy `Application`
+```C#
+  // ... run()
+  // ... while(true)
+  // ... switch(command)
+  case "\\receipt":
+      if (words.Length < 6) {
+          Console.WriteLine("Not enough arguments provided.");
+          break;
+      }
+      // extracion mode currently unused
+      if (!ValidateReceiptCommand(userInput, 
+      out ExtractionMode eMode, out string sourcePath,
+      out AzureDocumentAI.SaveMode receiptSaveMode, out string destPath,
+      out bool reseiptVerbose
+      )) {
+          Console.WriteLine("Failed \receipt command validation.");
+          break;
+      }
+      try {
+          await _receiptService.ExtractOne(
+              sourcePath, destPath, receiptSaveMode, reseiptVerbose
+          );
+      } catch (Exception ex) {
+          Console.WriteLine(
+            $"Error occured while processing \\receipt command: {ex.Message}"
+            );
+      }
+      break;
+  // the default case ...
+```
+Treść komendy musi być zwalidowana w metodzie `ValidateReceiptCommand` klasy `Application`
+```C#
+private bool ValidateReceiptCommand(string userInput,
+    out ExtractionMode eMode, out string sourcePath,
+    out AzureDocumentAI.SaveMode sMode, out string destPath,
+    out bool verbose)
+{
+
+  sourcePath = string.Empty;
+  destPath = string.Empty;
+  eMode = ExtractionMode.None;
+  sMode = AzureDocumentAI.SaveMode.None;
+  verbose = false;
+
+  string pattern = @"\\receipt\s+(-v|--verbose)?\s?(jpg)\s+""([^""]+)""\s+to\s+(json)\s+""([^""]+)""\s*(-v|--verbose)?\s?";
+  Match match = Regex.Match(userInput, pattern, RegexOptions.IgnoreCase);
+  if (!match.Success)
+  {
+      return false;
+  }
+
+  // Groups
+  // 1, 6) -v, --verbose
+  // 2) jpg
+  // 3) sourcePath
+  // 4) json (only option for now)
+  // 5) destPath
+
+    if (!string.IsNullOrEmpty(match.Groups[1].Value) || !string.IsNullOrEmpty(match.Groups[6].Value))
+    {
+        verbose = true;
+    }
+    if (match.Groups[2].Value == "jpg")
+    {
+        eMode = ExtractionMode.Jpg;
+    }
+    if (match.Groups[4].Value == "json")
+    {
+        sMode = AzureDocumentAI.SaveMode.Json;
+    }
+    sourcePath = match.Groups[3].Value;
+    destPath = match.Groups[5].Value;
+
+    return true;
+}
+```
 
 - dodanie instrukcji użytkownika
 
 #### 10. Testy
+- brak komendy `verbose`, brak wyświetlenia wyniku, ale zapisano plik
+![alt text](screens/1_testing_chat/1_test_no_output.png)
 
+![alt text](image.png)
+
+```json
+{
+  "ServiceVersion": "2023-07-31",
+  "ModelId": "DotChat-Receipt-Model",
+  "Content": "Dona Mercedes Restaurant 1030 1/2 San Fernando Rd San Fernando CA 91341\nVero CENTER L\n1 CHicharon\n$2.25\n3 Pupusa Queso\n$6.75\n1 Platanos Orden\n$7.75\n1 Diet coke\n$1.50\n2 Quesadilla salvadorena\n$4.00\nSUBTOTAL: $22.25\nTAX: $2.22\nTOTAL: $24.47\nTIP SUGGESTIONS 18%: $4.40 20%: $4.89 25%: $6.12\nThank You!",
+  "Pages": [
+    {
+      "Unit": 0,
+      "PageNumber": 1,
+      "Angle": 0.8636075,
+      "Width": 750.0,
+      "Height": 1000.0,
+      "Spans": [
+        {
+          "Index": 0,
+          "Length": 298
+        }
+      ],
+      "Words": [
+        {
+          "BoundingPolygon": [
+            {
+              "IsEmpty": false,
+              "X": 190.0,
+              "Y": 71.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 251.0,
+              "Y": 71.0
+            },
+            {
+              "IsEmpty": false,
+              "X": 251.0,
+              "Y": 87.0
+            },
+  // ...
+```
+
+- komenda `verbose`, wyświetlono wyniki
+![alt text](screens/1_testing_chat/2_test_verbose.png)
+
+- komenda źle sformatowana, uzyskano informację o błędzie
+![alt text](screens/1_testing_chat/3_invalid_cases.png)
 
 ### 2. Generowanie obrazów na podstawie opisu
