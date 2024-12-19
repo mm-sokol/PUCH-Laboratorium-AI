@@ -13,7 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
 using System.Net.Http;
 
-namespace AzureCVision
+namespace AzureCustomVision
 {
     public enum Mode
     {

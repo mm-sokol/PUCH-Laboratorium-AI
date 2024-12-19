@@ -353,7 +353,7 @@ private bool ValidateReceiptCommand(string userInput,
 - brak komendy `verbose`, brak wyświetlenia wyniku, ale zapisano plik
 ![alt text](screens/1_testing_chat/1_test_no_output.png)
 
-![alt text](image.png)
+![alt text](screens/1_testing_chat/1_file.png)
 
 ```json
 {
@@ -421,13 +421,29 @@ Wybrany model to `dall-e-3`
 
 ![alt text](screens/2_dale_creation/4_meet_dall-e-3.png)
 
-#### 2. Dodanie zależności
-```bash
-dotnet add package Azure.AI.OpenAI --version 1.0.0-beta.6
+#### 2. Dodanie konfiguracji
+Ponownie nie udało się skorzystać z pakietu `Azure.AI.OpenAI` zgodnie ze wskazówkami zawartymi w [learn.microsoft.com](https://learn.microsoft.com/en-us/azure/ai-services/openai/dall-e-quickstart?tabs=dalle3%2Ccommand-line%2Cjavascript-keyless%2Ctypescript-keyless&pivots=programming-language-csharp), nie zostają odnalezione klasy pakietu takie jak `AzureOpenAIClient`.
+
+Zostanie wykorzystana specyfikacja API opisana [tutaj](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/dall-e?tabs=dalle3)
+
+W `appsettings.json` dodane zastała część odpowiadająca komunikacji z modelem `dall-e-3`:
+```json
+  "AzureOpenAIImage": {
+    "Endpoint": "https://<resource name>.cognitiveservices.azure.com/openai/deployments/dall-e-3/images/generations?api-version=<version>",
+    "ApiKey": "<api key>",
+    "Model": "dall-e-3"
+  },
 ```
 
-#### 3. ??
+Wartości odnależć można w `Azure AI Foundry` > `Deployments` > `dall-e-3`
 
-#### 4. ??
+![alt text](screens/2_dale_creation/6_uri_key.png)
 
-#### 5. ??
+#### 3. Integracja z chatem
+
+- Dodana zostaje klasa `OpenAIImageService` obsługująca komunikację z `dall-e-3`
+
+- Utworzone są klasy reprezentacji zapytań i odpowiedzi modelu.
+
+#### 4. Testowanie
+

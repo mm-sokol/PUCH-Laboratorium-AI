@@ -3,10 +3,8 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using Azure.AI.OpenAI;
 using Microsoft.Net.Http.Headers;
-using Microsoft.AspNetCore.Identity;
 
-
-namespace AIDotChat
+namespace AzureOpenAI
 {
 
 public class OpenAIResponse
@@ -43,7 +41,7 @@ public class OpenAIRequest
     public required Message[] Messages { get; set; }
 }
 
-public class OpenAIService {
+public class OpenAIChatService {
 
 //    private readonly string _apiKey = GetEnvironmentVariable("AZURE_OPENAI_KEY");
 //    private readonly string _endpoint = GetEnvironmentVariable("AZURE_OPENAI_ENDPOINT");
@@ -71,7 +69,7 @@ public class OpenAIService {
 
     // private readonly ChatCompletionsClient _client;
 
-    public OpenAIService(IConfiguration configuration) {
+    public OpenAIChatService(IConfiguration configuration) {
         _apiKey = configuration["AzureOpenAI:ApiKey"] ?? "";
         _endpoint = configuration["AzureOpenAI:Endpoint"] ?? "";
         _model = configuration["AzureOpenAI:Model"] ?? "";

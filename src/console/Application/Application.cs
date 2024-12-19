@@ -1,8 +1,9 @@
-using AIDotChat;
-using AzureCVision;
+
+using AzureCustomVision;
 using AzureDocumentAI;
+using AzureOpenAI;
+
 using Microsoft.Extensions.Configuration;
-using Sprache;
 using System.Text.RegularExpressions;
 
 namespace AIDotChat
@@ -11,7 +12,7 @@ namespace AIDotChat
     {
         private string _username = "User";
         private string _assistant = "GPT-4";
-        private OpenAIService _service;
+        private OpenAIChatService _service;
         private AzureCVService _visionService;
         private OpenAIPdfService _summaryService;
         private AzureCDIReceiptService _receiptService;
@@ -23,12 +24,14 @@ namespace AIDotChat
                 .AddJsonFile("appsettings.json");
             var configuration = builder.Build();
             // Create OpenAI service
-            _service = new OpenAIService(configuration);
+            _service = new OpenAIChatService(configuration);
             // Create Azure Custom Vision service
             _visionService = new AzureCVService(configuration);
             // Create service for summaries
             _summaryService = new OpenAIPdfService(configuration);
+            // Create service for receipt data from image extraction
             _receiptService = new AzureCDIReceiptService(configuration);
+            
         }
 
         public string GetGreetings()

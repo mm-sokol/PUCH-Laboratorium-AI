@@ -15,7 +15,8 @@ using Azure;
 using Microsoft.Extensions.Configuration;
 // using OpenAI.RealtimeConversation;
 
-namespace AIDotChat
+
+namespace AzureOpenAI
 {
   enum SummaryMode
   {
@@ -70,9 +71,6 @@ namespace AIDotChat
     private readonly string _endpoint;
 
     private readonly string _model;
-
-    // private AzureOpenAIClient _client;
-    // private ChatClient _chat;
 
     private HttpClient _httpClient;
 
