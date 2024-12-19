@@ -42,11 +42,6 @@ public class OpenAIRequest
 }
 
 public class OpenAIChatService {
-
-//    private readonly string _apiKey = GetEnvironmentVariable("AZURE_OPENAI_KEY");
-//    private readonly string _endpoint = GetEnvironmentVariable("AZURE_OPENAI_ENDPOINT");
-//    private readonly string _model = GetEnvironmentVariable("AZURE_OPENAI_MODEL");
-
     private enum Agent {
         User, Assistant, System
     }
