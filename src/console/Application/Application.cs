@@ -16,6 +16,7 @@ namespace AIDotChat
         private AzureCVService _visionService;
         private OpenAIPdfService _summaryService;
         private AzureCDIReceiptService _receiptService;
+        private OpenAIImageService _imageService;
 
         public Application()
         {
@@ -31,6 +32,8 @@ namespace AIDotChat
             _summaryService = new OpenAIPdfService(configuration);
             // Create service for receipt data from image extraction
             _receiptService = new AzureCDIReceiptService(configuration);
+            // Create dall-e model
+            _imageService = new OpenAIImageService(configuration);
             
         }
 
@@ -186,6 +189,32 @@ namespace AIDotChat
             return true;
         }
 
+        private bool ValidateDalleCommand(string userInput, out string imgDest, out GenerationMode gMode) {
+            imgDest = string.Empty;
+            gMode = GenerationMode.None;
+            string pattern = @"\\dall-e\s+(jpg|url)\s*(""([^""]+)"")?";
+            Match match = Regex.Match(userInput, pattern, RegexOptions.IgnoreCase);
+            if (!match.Success) {
+                return false;
+            }
+
+            // Groups 
+            // 1) jpg, url
+            // 2) imgDest or empty
+
+            if (match.Groups[1].Value == "url") {
+                gMode = GenerationMode.Url;
+                return true;
+            }
+            if (match.Groups[1].Value == "jpg" && !string.IsNullOrWhiteSpace(match.Groups[2].Value)) {
+                gMode = GenerationMode.Jpg;
+                imgDest = match.Groups[2].Value;
+                return true;
+            }
+
+            return false;
+        }
+
         public async Task run()
         {
             while (true)
@@ -317,6 +346,25 @@ namespace AIDotChat
                                 );
                             } catch (Exception ex) {
                                 Console.WriteLine($"Error occured while processing \\receipt command: {ex.Message}");
+                            }
+                            break;
+                        case "\\dall-e":
+                            if (words.Length < 2) {
+                                Console.WriteLine("Not enough arguments provided.");
+                                break;
+                            }
+                            if (!ValidateDalleCommand(string userInput, out string imgDest, out GenerationMode gMode)) {
+                                Console.WriteLine("Command was't well constructed.");
+                                break;
+                            }
+                            try {
+                                _imageService.SetUser(_username);
+                                _imageService.PromptForPrompt();
+                                _imageService.PromptForSize();
+                                _imageService.PromptForStyle();
+                                _imageService.PromptForQuality();
+                                _imageService.PromptForNumber();
+                                await _imageService.Generate(gMode, imgDest);
                             }
                             break;
 

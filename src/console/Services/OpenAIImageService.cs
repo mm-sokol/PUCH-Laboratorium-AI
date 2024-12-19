@@ -250,7 +250,8 @@ namespace AzureOpenAI
       StringBuilder userInput = new StringBuilder();
       string line = string.Empty;
 
-      do {
+      do
+      {
         Console.WriteLine($"{_user}: ");
         line = Console.ReadLine() ?? "";
         userInput.Append(line);
@@ -284,7 +285,7 @@ namespace AzureOpenAI
         _request.N = number;
     }
 
-    public async Task<ImageResponse?> Generate()
+    private async Task<ImageResponse?> MakeRequest()
     {
       if (string.IsNullOrWhiteSpace(_request.Prompt))
       {
@@ -318,13 +319,44 @@ namespace AzureOpenAI
       return null;
     }
 
-    public async Task GenerateToFile(string destDir, GenerationMode gMode)
+    public async Task Generate(GenerationMode gMode, string destDir = "")
     {
-      ImageResponse? imageResponse = await Generate();
+      ImageResponse? imageResponse = await MakeRequest();
       if (imageResponse == null)
       {
         return;
       }
+      if (gMode == GenerationMode.Jpg)
+      {
+        await GenerateToFile(imageResponse, gMode, destDir);
+      }
+      else if (gMode == GenerationMode.Url)
+      {
+        GenerateUrl(imageResponse);
+      }
+    }
+
+    private void GenerateUrl(ImageResponse imageResponse)
+    {
+      Console.WriteLine($"{_model}: Created {imageResponse.Created}");
+      for (int i = 0; i < imageResponse.Data.Length; i++)
+      {
+        var dataItem = imageResponse.Data[i];
+        if (dataItem is ImageData imgData)
+        {
+          Console.WriteLine($"Image {i}: {imgData.RevisedPrompt}");
+          Console.WriteLine($"Url: {imgData.Url}");
+        }
+        else if (dataItem is ErrorData errorData)
+        {
+          Console.WriteLine($"Image {i}: generation resulted in error: {errorData.Code}");
+          Console.WriteLine($"Error message: {errorData.Message}");
+        }
+      }
+    }
+
+    private async Task GenerateToFile(ImageResponse imageResponse, GenerationMode gMode, string destDir)
+    {
       if (!ValidateDirectory(destDir))
       {
         return;
