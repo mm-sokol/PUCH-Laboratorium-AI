@@ -85,7 +85,7 @@ public class OpenAIService {
     }
 
     public string GetModel() {
-        return this._model;
+        return _model;
     }
 
     private void AddMessage(Agent agent, string message) {

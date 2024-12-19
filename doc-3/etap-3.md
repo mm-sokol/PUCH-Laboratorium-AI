@@ -7,12 +7,11 @@ DotChat
   - [Projekt w Document Intelligence Studio](#7-utworzenie-projektu-w-document-intelligence-studio)
   - [Trenowanie modelu](#8-trenowanie-modelu)
   - [Integracja z czatem](#9-integracja-z-chatem)
+  - [Testy](#10-testy)
 
 2. [temat 7: Generowanie obrazów na podstawie opisu](#2-generowanie-obrazów-na-podstawie-opisu)
 
 Repozytorium: [github](https://github.com/mm-sokol/PUCH-Laboratorium-AI/tree/etap-3)
-
-Currently labeling: 1076-receipt.jpg
 
 Crediting data sources:
 - [ExpressExpense.com](https://expressexpense.com/blog/free-receipt-images-ocr-machine-learning-dataset/)
@@ -401,4 +400,34 @@ private bool ValidateReceiptCommand(string userInput,
 - komenda źle sformatowana, uzyskano informację o błędzie
 ![alt text](screens/1_testing_chat/3_invalid_cases.png)
 
+
+
+
+
 ### 2. Generowanie obrazów na podstawie opisu
+
+#### 1. Uworzenie wdrożenia modelu dall-e
+W poprzednim etapie utworzony został zasób `Azure OpenAI` nazwany `ChatDotAI-service`. Po odszukaniu go w grupie zasobów dostaję się do `Azure AI Foundry Portal`. Wybieram `Images` w lewym panelu. Nie jest możliwe utworzenie modelu `dall-e` w regionie West Europe.
+
+![alt text](screens/2_dale_creation/1_no_access.png)
+
+Przechodzę do utworzonego wcześniej zasobu typu `Azure AI services` utworzonego w regionie Sweden Central. Dalej do portalu `Azure AI Foundry Portal`>`Images`.
+
+![alt text](screens/2_dale_creation/2_sweden_central.png)
+
+![alt text](screens/2_dale_creation/3_deplyment_needed.png)
+
+Wybrany model to `dall-e-3`
+
+![alt text](screens/2_dale_creation/4_meet_dall-e-3.png)
+
+#### 2. Dodanie zależności
+```bash
+dotnet add package Azure.AI.OpenAI --version 1.0.0-beta.6
+```
+
+#### 3. ??
+
+#### 4. ??
+
+#### 5. ??

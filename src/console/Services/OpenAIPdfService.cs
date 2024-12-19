@@ -11,23 +11,9 @@ using PdfSharpCore.Drawing;
 
 using Azure.AI.FormRecognizer.DocumentAnalysis;
 using Azure;
-// using Azure.AI.DocumentAnalysis;
-
-using Azure.Core;
-
-// using OpenAI;
-// using OpenAI.Models;
-// using OpenAI.Completions;
 
 using Microsoft.Extensions.Configuration;
 // using OpenAI.RealtimeConversation;
-
-using Azure.AI.OpenAI;
-using Azure.AI.OpenAI.Chat;
-using OpenAI.Chat;
-using System.Collections;
-using Microsoft.AspNetCore.Identity;
-using System.Linq.Expressions;
 
 namespace AIDotChat
 {
