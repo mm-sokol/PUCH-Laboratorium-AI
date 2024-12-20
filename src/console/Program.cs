@@ -1,7 +1,4 @@
 ﻿using AIDotChat;
-using Azure.AI.OpenAI;
-using System;
-using System.Net.Http;
 
 class Program
 {

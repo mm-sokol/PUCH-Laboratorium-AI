@@ -1,20 +1,9 @@
 
 using Azure.AI.FormRecognizer.DocumentAnalysis;
-using Azure.Core;
 using Azure;
 
 using Microsoft.Extensions.Configuration;
-using AIDotChat;
-using System.Collections;
-using System.Text.Json;
 using Newtonsoft.Json;
-
-// using DocumentFormat.OpenXml.Spreadsheet;
-// using ClosedXML.Excel;
-using Excel = Microsoft.Office.Interop.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
-using Microsoft.Office.Interop.Excel;
-using DocumentFormat.OpenXml.Math;
 
 namespace AzureDocumentAI
 {

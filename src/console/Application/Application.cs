@@ -63,7 +63,11 @@ namespace AIDotChat
             greetings += " \\receipt [options] - extract data from receipt image using Azure Custom Document Intelligence\n";
             // greetings += " \\receipt jpg \"<in filename>\" to xlsx \"<out filename>\"\n";
             greetings += " \\receipt jpg \"<in filename>\" to json \"<out filename>\"\n"; 
-            greetings += " \\receipt ... -v|--verbose - outputs data to the screen\n";
+            greetings += " \\receipt ... -v|--verbose - outputs data to the screen\n\n";
+
+            greetings += " \\dall-e [options] - prompts for image description and generates image(s)\n";
+            greetings += " \\dall-e img \"<dest folder>\" - images will be saved to disc\n";
+            greetings += " \\dall-e url - image urls will be printed to console\n\n";
             greetings += " ...\n";
             return greetings;
         }
@@ -209,6 +213,7 @@ namespace AIDotChat
             if (match.Groups[1].Value == "jpg" && !string.IsNullOrWhiteSpace(match.Groups[2].Value)) {
                 gMode = GenerationMode.Jpg;
                 imgDest = match.Groups[2].Value;
+                Console.WriteLine($"Destination: {imgDest}");
                 return true;
             }
 
@@ -303,7 +308,7 @@ namespace AIDotChat
                             }
                             catch (Exception ex)
                             {
-                                Console.WriteLine($"Error: {ex.Message}");
+                                Console.WriteLine($"Error occured while processing \\vision command: {ex.Message}");
                             }
                             break;
                         case "\\summarize":
@@ -323,7 +328,7 @@ namespace AIDotChat
                             }
                             catch (Exception ex)
                             {
-                                Console.WriteLine($"Error occured: {ex.Message}");
+                                Console.WriteLine($"Error occured while processing \\summarize: {ex.Message}");
                             }
                             break;
                         case "\\receipt":
@@ -353,18 +358,20 @@ namespace AIDotChat
                                 Console.WriteLine("Not enough arguments provided.");
                                 break;
                             }
-                            if (!ValidateDalleCommand(string userInput, out string imgDest, out GenerationMode gMode)) {
-                                Console.WriteLine("Command was't well constructed.");
+                            if (!ValidateDalleCommand(userInput, out string imgDest, out GenerationMode gMode)) {
+                                Console.WriteLine("Command wasn't well constructed.");
                                 break;
                             }
                             try {
+                                Console.WriteLine($"Destination: {imgDest}");
                                 _imageService.SetUser(_username);
                                 _imageService.PromptForPrompt();
                                 _imageService.PromptForSize();
                                 _imageService.PromptForStyle();
                                 _imageService.PromptForQuality();
-                                _imageService.PromptForNumber();
                                 await _imageService.Generate(gMode, imgDest);
+                            } catch (Exception ex) {
+                                Console.Write($"Error in processing \\dall-e command: {ex.Message}");
                             }
                             break;
 

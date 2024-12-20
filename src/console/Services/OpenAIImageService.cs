@@ -11,34 +11,26 @@ namespace AzureOpenAI
 
   class ImageReguest
   {
-    public required string Prompt;
-    public required string Size;
-    public required int N;
-    public required string Quality;
-    public required string Style;
+    public required string Prompt {get; set;}
+    public required string Size {get; set;}
+    public required int N {get; set;}
+    public required string Quality {get; set;}
+    public required string Style {get; set;}
   }
 
-  class Data
+  class ImageData
   {
+    public string? Url { get; set; }
 
-  }
-  class ImageData : Data
-  {
-    public required string Url { get; init; }
-
-    public required string RevisedPrompt { get; init; }
-  }
-
-  class ErrorData : Data
-  {
-    public required string Code { get; init; }
-    public required string Message { get; init; }
+    public string? Revised_Prompt { get; set; }
+    public string? Code { get; set; }
+    public string? Message { get; set; }
   }
 
   class ImageResponse
   {
-    public required int Created { get; init; }
-    public required Data[] Data;
+    public required int Created { get; set; }
+    public required List<ImageData> Data { get; set; } = new List<ImageData>();
   }
 
   enum GenerationMode
@@ -74,7 +66,7 @@ namespace AzureOpenAI
     {
       _apiKey = config["AzureOpenAIImage:ApiKey"] ?? "";
       _endpoint = config["AzureOpenAIImage:Endpoint"] ?? "";
-      _model = config["AzureOpenAIImage:ImageModel"] ?? "";
+      _model = config["AzureOpenAIImage:Model"] ?? "";
       _httpClient = new HttpClient();
       _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
       _httpClient.DefaultRequestHeaders.Add("api-key", _apiKey);
@@ -84,7 +76,7 @@ namespace AzureOpenAI
       _request = new ImageReguest
       {
         Prompt = "",
-        Size = "1024 x 1024",
+        Size = "1024x1024",
         N = 1,
         Quality = "standard",
         Style = "vivid"
@@ -113,9 +105,9 @@ namespace AzureOpenAI
     public void PromptForSize()
     {
       // 1024 x 1024, 1024 x 1792, 1792 x 1792
-      Console.BackgroundColor = ConsoleColor.Cyan;
-      Console.WriteLine($"DALL-E: Choose the size options by navigating 🔽  and 🔼  keys, press \u001b[32mEnter\u001b[0m to select");
-      Console.BackgroundColor = ConsoleColor.Black;
+      Console.ForegroundColor = ConsoleColor.Cyan;
+      Console.WriteLine($"{_model.ToUpper()}: Choose the size options by navigating 🔽  and 🔼  keys, press Enter to select");
+      Console.ForegroundColor = ConsoleColor.White;
 
       ConsoleKeyInfo key;
       int option = 0;
@@ -149,18 +141,18 @@ namespace AzureOpenAI
       Console.WriteLine($"Selected option {option}");
       _request.Size = option switch
       {
-        2 => "1792 x 1792",
-        1 => "1024 x 1792",
-        _ => "1024 x 1024"
+        2 => "1792x1792",
+        1 => "1024x1792",
+        _ => "1024x1024"
       };
     }
 
     public void PromptForQuality()
     {
       // hd, Standard
-      Console.BackgroundColor = ConsoleColor.Magenta;
-      Console.WriteLine($"DALL-E: Choose the quality options by navigating 🔽  and 🔼  keys, press \u001b[32mEnter\u001b[0m to select");
-      Console.BackgroundColor = ConsoleColor.Magenta;
+      Console.ForegroundColor = ConsoleColor.Magenta;
+      Console.WriteLine($"{_model.ToUpper()}: Choose the quality options by navigating 🔽  and 🔼  keys, press Enter to select");
+      Console.ForegroundColor = ConsoleColor.Magenta;
 
       ConsoleKeyInfo key;
       int option = 0;
@@ -192,7 +184,7 @@ namespace AzureOpenAI
         }
       }
       Console.WriteLine($"Selected option {option}");
-      _request.Size = option switch
+      _request.Quality = option switch
       {
         1 => "hd",
         _ => "standard"
@@ -202,9 +194,9 @@ namespace AzureOpenAI
     public void PromptForStyle()
     {
       // vivid, natural
-      Console.BackgroundColor = ConsoleColor.Yellow;
-      Console.WriteLine($"DALL-E: Choose the style options by navigating 🔽  and 🔼  keys, press \u001b[32mEnter\u001b[0m to select");
-      Console.BackgroundColor = ConsoleColor.Yellow;
+      Console.ForegroundColor = ConsoleColor.Yellow;
+      Console.WriteLine($"{_model.ToUpper()}: Choose the style options by navigating 🔽  and 🔼  keys, press Enter to select");
+      Console.ForegroundColor = ConsoleColor.Yellow;
 
 
       ConsoleKeyInfo key;
@@ -216,8 +208,8 @@ namespace AzureOpenAI
       {
         Console.SetCursorPosition(left, top);
 
-        Console.WriteLine($"{GetColorOrSpace(option, 0)}Standard\u001b[0m");
-        Console.WriteLine($"{GetColorOrSpace(option, 1)}HD\u001b[0m");
+        Console.WriteLine($"{GetColorOrSpace(option, 0)}Vivid\u001b[0m");
+        Console.WriteLine($"{GetColorOrSpace(option, 1)}Natural\u001b[0m");
 
 
         key = Console.ReadKey(true);
@@ -237,22 +229,22 @@ namespace AzureOpenAI
         }
       }
       Console.WriteLine($"Selected option {option}");
-      _request.Size = option switch
+      _request.Style = option switch
       {
-        1 => "natural",
-        _ => "vivid"
+        0 => "vivid",
+        _ => "natural"
       };
     }
 
     public void PromptForPrompt()
     {
-      Console.WriteLine($"{_model}: Could you describe you desired image? (press double Enter after you're finished)");
+      Console.WriteLine($"{_model.ToUpper()}: Could you describe you desired image? (press double Enter after you're finished)");
       StringBuilder userInput = new StringBuilder();
       string line = string.Empty;
 
       do
       {
-        Console.WriteLine($"{_user}: ");
+        Console.Write($"{_user}: ");
         line = Console.ReadLine() ?? "";
         userInput.Append(line);
       } while (!string.IsNullOrWhiteSpace(line));
@@ -260,30 +252,6 @@ namespace AzureOpenAI
       _request.Prompt = userInput.ToString();
     }
 
-    public void PromptForNumber()
-    {
-      Console.Write($"{_model.ToUpper()}: How many images?");
-      bool invalidInput = true;
-      int number = 0;
-      while (invalidInput)
-      {
-
-        Console.WriteLine($"{_user}: ");
-        string input = Console.ReadLine() ?? "";
-
-        if (int.TryParse(input, out number))
-        {
-          invalidInput = false;
-        }
-        else
-        {
-          Console.Write($"{_model.ToUpper()}: This is not a valid number. Sorry.");
-        }
-      }
-
-      if (number > 0)
-        _request.N = number;
-    }
 
     private async Task<ImageResponse?> MakeRequest()
     {
@@ -299,6 +267,8 @@ namespace AzureOpenAI
       {
         var response = await _httpClient.PostAsJsonAsync(_endpoint, _request);
         var responseBody = await response.Content.ReadAsStringAsync();
+
+        Console.WriteLine(responseBody.ToString());
         var responseObject = JsonSerializer.Deserialize<ImageResponse>(responseBody, new JsonSerializerOptions
         {
           PropertyNameCaseInsensitive = true
@@ -328,6 +298,7 @@ namespace AzureOpenAI
       }
       if (gMode == GenerationMode.Jpg)
       {
+        Console.WriteLine($"Destination: {destDir}");
         await GenerateToFile(imageResponse, gMode, destDir);
       }
       else if (gMode == GenerationMode.Url)
@@ -338,25 +309,26 @@ namespace AzureOpenAI
 
     private void GenerateUrl(ImageResponse imageResponse)
     {
-      Console.WriteLine($"{_model}: Created {imageResponse.Created}");
-      for (int i = 0; i < imageResponse.Data.Length; i++)
+      Console.WriteLine($"{_model.ToUpper()}: Created {imageResponse.Created}");
+      for (int i = 0; i < imageResponse.Data.Count; i++)
       {
         var dataItem = imageResponse.Data[i];
-        if (dataItem is ImageData imgData)
+        if (dataItem.Url != null)
         {
-          Console.WriteLine($"Image {i}: {imgData.RevisedPrompt}");
-          Console.WriteLine($"Url: {imgData.Url}");
+          Console.WriteLine($"Image {i}: {dataItem.Revised_Prompt}");
+          Console.WriteLine($"Url: {dataItem.Url}");
         }
-        else if (dataItem is ErrorData errorData)
+        else if (dataItem.Code != null)
         {
-          Console.WriteLine($"Image {i}: generation resulted in error: {errorData.Code}");
-          Console.WriteLine($"Error message: {errorData.Message}");
+          Console.WriteLine($"Image {i}: generation resulted in error: {dataItem.Code}");
+          Console.WriteLine($"Error message: {dataItem.Message}");
         }
       }
     }
 
     private async Task GenerateToFile(ImageResponse imageResponse, GenerationMode gMode, string destDir)
     {
+      Console.WriteLine($"Destiantion GenerateToFile: {destDir}");
       if (!ValidateDirectory(destDir))
       {
         return;
@@ -364,25 +336,27 @@ namespace AzureOpenAI
 
       try
       {
-        for (int i = 0; i < imageResponse.Data.Length; i++)
+        for (int i = 0; i < imageResponse.Data.Count; i++)
         {
           var dataItem = imageResponse.Data[i];
-          string filename = $"{_model}-image-{imageResponse.Created}-{i}{GenerationModeDescription.get(gMode)}";
+          string filename = $"{_model.ToUpper()}-image-{imageResponse.Created}{GenerationModeDescription.get(gMode)}";
+          Console.WriteLine($"Filename: {filename}");
           string path = Path.Join(destDir, filename);
-          if (dataItem is ImageData imageData)
+          Console.WriteLine($"Destiantion: {path}");
+          if (dataItem.Url != null)
           {
 
-            HttpResponseMessage response = await _httpClient.GetAsync(imageData.Url);
+            HttpResponseMessage response = await _httpClient.GetAsync(dataItem.Url);
             response.EnsureSuccessStatusCode();
             byte[] image = await response.Content.ReadAsByteArrayAsync();
             await File.WriteAllBytesAsync(path, image);
             Console.WriteLine($"Image downloaded and saved successfully in {filename}");
 
           }
-          else if (dataItem is ErrorData errorData)
+          else if (dataItem.Code != null)
           {
-            Console.WriteLine($"Image {i}.  generation resulted in error: {errorData.Code}");
-            Console.WriteLine($"Error message: {errorData.Message}");
+            Console.WriteLine($"Image {i}.  generation resulted in error: {dataItem.Code}");
+            Console.WriteLine($"Error message: {dataItem.Message}");
           }
 
         }
@@ -395,20 +369,32 @@ namespace AzureOpenAI
 
     private bool ValidateDirectory(string destDir)
     {
+      Console.WriteLine($"ValidateDirectory Destination 1: {destDir}");
       if (string.IsNullOrWhiteSpace(destDir))
       {
         Console.WriteLine("Validation error: directory name is null or whitespace");
         return false;
       }
-      if (Path.GetInvalidPathChars().Any(x => destDir.Contains(x)))
+      Console.WriteLine($"ValidateDirectory Destination 2: {destDir}");
+      char[] invalidChars = Path.GetInvalidPathChars();
+      if (destDir.IndexOfAny(invalidChars) >= 0)
       {
         Console.WriteLine("Validation error: directory name contains illegal characters");
         return false;
       }
+      Console.WriteLine($"ValidateDirectory Destination 3: {destDir}");
       if (!Directory.Exists(destDir))
       {
-        Directory.CreateDirectory(destDir);
+        Console.WriteLine("Directory does not exist.");
+        try {
+          Directory.CreateDirectory(destDir);
+        } catch (Exception e) {
+          
+          Console.WriteLine($"Path Validation exception: {e.Message}");
+          throw new Exception(e.Message);
+        }
       }
+      Console.WriteLine($"ValidateDirectory Destination 4: {destDir}");
       return true;
     }
 
