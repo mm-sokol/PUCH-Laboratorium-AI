@@ -45,6 +45,7 @@ def process_markdown_file(md_file_path, out_path):
         
     for match in all_matches:
         image_path = match[1]  # Assuming the second element of the tuple is the image path
+        print(image_path)
         converted_path = image_path[1].replace("/", "\\")
         path = os.path.join("C:\\Users\\MS\\Desktop\\PUCH\\Laboratorium 2 AI\\AIDotChat\\doc-3", converted_path)  # Join base path with image path
         print(f"Path ---> {path}")  # Output the full path
@@ -54,12 +55,12 @@ def process_markdown_file(md_file_path, out_path):
             # Replace Markdown-style paths
             # Replace Markdown-style paths
             content = markdown_image_pattern.sub(
-                lambda m: f'![{m.group(1)}]({base64_data})' if m.group(2) == image_path else m.group(0), content
+                lambda m: f'![{m.group(1)}]({base64_data})' if m.group(2) == image_path[1] else m.group(0), content
             )
             
             # Replace HTML-style paths
             content = html_image_pattern.sub(
-                lambda m: f'<img src="{base64_data}" alt="{m.group(1)}" width="{m.group(3)}"/>' if m.group(1) == image_path else m.group(0), content
+                lambda m: f'<img src="{base64_data}" alt="{m.group(1)}" width="{m.group(3)}"/>' if m.group(1) == image_path[1] else m.group(0), content
             )
         else:
             print(f"Warning: Image not found at path {path}")
