@@ -11,17 +11,16 @@ namespace AzureOpenAI
 
   class ImageReguest
   {
-    public required string Prompt {get; set;}
-    public required string Size {get; set;}
-    public required int N {get; set;}
-    public required string Quality {get; set;}
-    public required string Style {get; set;}
+    public required string Prompt { get; set; }
+    public required string Size { get; set; }
+    public required int N { get; set; }
+    public required string Quality { get; set; }
+    public required string Style { get; set; }
   }
 
   class ImageData
   {
     public string? Url { get; set; }
-
     public string? Revised_Prompt { get; set; }
     public string? Code { get; set; }
     public string? Message { get; set; }
@@ -71,7 +70,7 @@ namespace AzureOpenAI
       _httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
       _httpClient.DefaultRequestHeaders.Add("api-key", _apiKey);
       _httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", config["Azure:Subscription"]);
-
+      _user = "User";
       // default values
       _request = new ImageReguest
       {
@@ -104,7 +103,7 @@ namespace AzureOpenAI
 
     public void PromptForSize()
     {
-      // 1024 x 1024, 1024 x 1792, 1792 x 1792
+      // 1024 x 1024, 1024 x 1792, 1792 x 1024
       Console.ForegroundColor = ConsoleColor.Cyan;
       Console.WriteLine($"{_model.ToUpper()}: Choose the size options by navigating 🔽  and 🔼  keys, press Enter to select");
       Console.ForegroundColor = ConsoleColor.White;
@@ -120,28 +119,30 @@ namespace AzureOpenAI
 
         Console.WriteLine($"{GetColorOrSpace(option, 0)}1024 x 1024\u001b[0m");
         Console.WriteLine($"{GetColorOrSpace(option, 1)}1024 x 1792\u001b[0m");
-        Console.WriteLine($"{GetColorOrSpace(option, 2)}1792 x 1792\u001b[0m");
+        Console.WriteLine($"{GetColorOrSpace(option, 2)}1792 x 1024\u001b[0m");
 
         key = Console.ReadKey(true);
+
         switch (key.Key)
         {
           case ConsoleKey.DownArrow:
-            option = option++ % 3;
+            option = (++option) % 3;
             break;
 
           case ConsoleKey.UpArrow:
-            option = option-- % 3;
+            option = (option == 0) ? 2 : option - 1;
             break;
 
           case ConsoleKey.Enter:
             selectionComplete = true;
             break;
         }
+        Console.WriteLine($":--------------------------------------------------------:");
       }
-      Console.WriteLine($"Selected option {option}");
+      
       _request.Size = option switch
       {
-        2 => "1792x1792",
+        2 => "1792x1024",
         1 => "1024x1792",
         _ => "1024x1024"
       };
@@ -171,19 +172,21 @@ namespace AzureOpenAI
         switch (key.Key)
         {
           case ConsoleKey.DownArrow:
-            option = option++ % 2;
+            option = (option == 1) ? 0 : 1;
             break;
 
           case ConsoleKey.UpArrow:
-            option = option-- % 2;
+            option = (option == 0) ? 1 : 0;
             break;
 
           case ConsoleKey.Enter:
             selectionComplete = true;
             break;
         }
+        Console.WriteLine($":--------------------------------------------------------:");
+
       }
-      Console.WriteLine($"Selected option {option}");
+      
       _request.Quality = option switch
       {
         1 => "hd",
@@ -216,19 +219,20 @@ namespace AzureOpenAI
         switch (key.Key)
         {
           case ConsoleKey.DownArrow:
-            option = option++ % 2;
+            option = (++option) % 2;
             break;
 
           case ConsoleKey.UpArrow:
-            option = option-- % 2;
+            option = (option == 0) ? 1 : 0;
             break;
 
           case ConsoleKey.Enter:
             selectionComplete = true;
             break;
         }
+        Console.WriteLine($":--------------------------------------------------------:");
       }
-      Console.WriteLine($"Selected option {option}");
+      
       _request.Style = option switch
       {
         0 => "vivid",
@@ -259,16 +263,12 @@ namespace AzureOpenAI
       {
         return null;
       }
-      if (_request.N < 0 || _request.N > 3)
-      {
-        return null;
-      }
       try
       {
         var response = await _httpClient.PostAsJsonAsync(_endpoint, _request);
         var responseBody = await response.Content.ReadAsStringAsync();
 
-        Console.WriteLine(responseBody.ToString());
+        // Console.WriteLine(responseBody.ToString());
         var responseObject = JsonSerializer.Deserialize<ImageResponse>(responseBody, new JsonSerializerOptions
         {
           PropertyNameCaseInsensitive = true
@@ -298,7 +298,7 @@ namespace AzureOpenAI
       }
       if (gMode == GenerationMode.Jpg)
       {
-        Console.WriteLine($"Destination: {destDir}");
+        
         await GenerateToFile(imageResponse, gMode, destDir);
       }
       else if (gMode == GenerationMode.Url)
@@ -328,7 +328,6 @@ namespace AzureOpenAI
 
     private async Task GenerateToFile(ImageResponse imageResponse, GenerationMode gMode, string destDir)
     {
-      Console.WriteLine($"Destiantion GenerateToFile: {destDir}");
       if (!ValidateDirectory(destDir))
       {
         return;
@@ -340,9 +339,7 @@ namespace AzureOpenAI
         {
           var dataItem = imageResponse.Data[i];
           string filename = $"{_model.ToUpper()}-image-{imageResponse.Created}{GenerationModeDescription.get(gMode)}";
-          Console.WriteLine($"Filename: {filename}");
           string path = Path.Join(destDir, filename);
-          Console.WriteLine($"Destiantion: {path}");
           if (dataItem.Url != null)
           {
 
@@ -369,32 +366,31 @@ namespace AzureOpenAI
 
     private bool ValidateDirectory(string destDir)
     {
-      Console.WriteLine($"ValidateDirectory Destination 1: {destDir}");
       if (string.IsNullOrWhiteSpace(destDir))
       {
         Console.WriteLine("Validation error: directory name is null or whitespace");
         return false;
       }
-      Console.WriteLine($"ValidateDirectory Destination 2: {destDir}");
       char[] invalidChars = Path.GetInvalidPathChars();
       if (destDir.IndexOfAny(invalidChars) >= 0)
       {
         Console.WriteLine("Validation error: directory name contains illegal characters");
         return false;
       }
-      Console.WriteLine($"ValidateDirectory Destination 3: {destDir}");
       if (!Directory.Exists(destDir))
       {
         Console.WriteLine("Directory does not exist.");
-        try {
+        try
+        {
           Directory.CreateDirectory(destDir);
-        } catch (Exception e) {
-          
+        }
+        catch (Exception e)
+        {
+
           Console.WriteLine($"Path Validation exception: {e.Message}");
           throw new Exception(e.Message);
         }
       }
-      Console.WriteLine($"ValidateDirectory Destination 4: {destDir}");
       return true;
     }
 

@@ -444,6 +444,159 @@ Wartości odnależć można w `Azure AI Foundry` > `Deployments` > `dall-e-3`
 - Dodana zostaje klasa `OpenAIImageService` obsługująca komunikację z `dall-e-3`
 
 - Utworzone są klasy reprezentacji zapytań i odpowiedzi modelu.
+```C#
+  class ImageReguest
+  {
+    public required string Prompt { get; set; }
+    public required string Size { get; set; }
+    public required int N { get; set; }
+    public required string Quality { get; set; }
+    public required string Style { get; set; }
+  }
+```
+
+- Dodane zostają funkcje pytające użytkownika o dodatkowe ustawienia, tj.: prompt, rozmiar, styl i jakość (parametr N musi być ustawiony na 1)
+
+- Dodane zostają kunkcje realizujące zapytanie do klienta http
+```C#
+    // Realizuje główną funkcjonalność 
+    // Zakłada, że w zmiennej _request zostały ustawione odpowiednie pola
+    private async Task<ImageResponse?> MakeRequest()
+    {
+      if (string.IsNullOrWhiteSpace(_request.Prompt))
+      {
+        return null;
+      }
+      try
+      {
+        var response = await _httpClient.PostAsJsonAsync(_endpoint, _request);
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        // Console.WriteLine(responseBody.ToString());
+        var responseObject = JsonSerializer.Deserialize<ImageResponse>(responseBody, new JsonSerializerOptions
+        {
+          PropertyNameCaseInsensitive = true
+        });
+
+        if (!response.IsSuccessStatusCode)
+        {
+          Console.WriteLine($"Http error: {response.StatusCode}");
+          Console.WriteLine($"Details: {responseObject}");
+        }
+
+        return responseObject;
+      }
+      catch (Exception ex)
+      {
+        Console.WriteLine($"Error: {ex.Message}");
+      }
+      return null;
+    }
+```
+
+- Dodane zostają funkcja zapisująca pliki obrazów na dysk
+```C#
+    private async Task GenerateToFile(ImageResponse imageResponse, GenerationMode gMode, string destDir)
+    {
+      if (!ValidateDirectory(destDir))
+      {
+        return;
+      }
+
+      try
+      {
+        for (int i = 0; i < imageResponse.Data.Count; i++)
+        {
+          var dataItem = imageResponse.Data[i];
+          string filename = $"{_model.ToUpper()}-image-{imageResponse.Created}{GenerationModeDescription.get(gMode)}";
+          string path = Path.Join(destDir, filename);
+          if (dataItem.Url != null)
+          {
+
+            HttpResponseMessage response = await _httpClient.GetAsync(dataItem.Url);
+            response.EnsureSuccessStatusCode();
+            byte[] image = await response.Content.ReadAsByteArrayAsync();
+            await File.WriteAllBytesAsync(path, image);
+            Console.WriteLine($"Image downloaded and saved successfully in {filename}");
+
+          }
+          else if (dataItem.Code != null)
+          {
+            Console.WriteLine($"Image {i}.  generation resulted in error: {dataItem.Code}");
+            Console.WriteLine($"Error message: {dataItem.Message}");
+          }
+
+        }
+      }
+      catch (Exception ex)
+      {
+        Console.WriteLine($"Error occured: {ex.Message}");
+      }
+    }
+```
+
+- Dodana zostaje funkcja wyświetlająca na ekranie url (dla opcji url)
+```C#
+    private void GenerateUrl(ImageResponse imageResponse)
+    {
+      Console.WriteLine($"{_model.ToUpper()}: Created {imageResponse.Created}");
+      for (int i = 0; i < imageResponse.Data.Count; i++)
+      {
+        var dataItem = imageResponse.Data[i];
+        if (dataItem.Url != null)
+        {
+          Console.WriteLine($"Image {i}: {dataItem.Revised_Prompt}");
+          Console.WriteLine($"Url: {dataItem.Url}");
+        }
+        else if (dataItem.Code != null)
+        {
+          Console.WriteLine($"Image {i}: generation resulted in error: {dataItem.Code}");
+          Console.WriteLine($"Error message: {dataItem.Message}");
+        }
+      }
+    }
+```
+
+- Dodana zostaje klauzula w switchu metdu run w klasie Application
+- Dodana zostaje walidacja komendy
+- Usupełniona zostaje instrukcja użytkownika
 
 #### 4. Testowanie
+- Opcja zapisu `jpg`
+
+![alt text](screens/2_dalle_img/1_img_size.png)
+
+![alt text](screens/2_dalle_img/2_style_size.png)
+
+![alt text](screens/2_dalle_img/4_file_saved.png)
+
+- Opcja wyświetlenia `url`
+
+![alt text](screens/2_dalle_img/3_ulr_test.png)
+
+- Niewłaściwie sformatowane komendy
+
+![alt text](screens/2_dalle_img/5_ill_formed.png)
+
+- Niektóre z uzyskanych obrazów
+
+<table>
+  <tr>
+    <td>
+      <div style="text-align: center;">
+        <img src="..\resources\results\image.png" alt="text" height="250"/>
+      </div>
+    </td>
+    <td>
+      <div style="text-align: center;">
+        <img src="..\resources\results\DALL-E-3-image-1734660033.jpg" alt="text" height="250"/>
+      </div>
+    </td>
+    <td>
+      <div style="text-align: center;">
+        <img src="..\resources\results\DALL-E-3-image-1734660296.jpg" alt="text" height="250"/>
+      </div>
+    </td>
+  </tr>
+</table>
 

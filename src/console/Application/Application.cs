@@ -204,16 +204,16 @@ namespace AIDotChat
 
             // Groups 
             // 1) jpg, url
-            // 2) imgDest or empty
+            // 2) "imgDest" or empty
+            // 3) imgDest
 
             if (match.Groups[1].Value == "url") {
                 gMode = GenerationMode.Url;
                 return true;
             }
-            if (match.Groups[1].Value == "jpg" && !string.IsNullOrWhiteSpace(match.Groups[2].Value)) {
+            if (match.Groups[1].Value == "jpg" && !string.IsNullOrWhiteSpace(match.Groups[3].Value)) {
                 gMode = GenerationMode.Jpg;
                 imgDest = match.Groups[2].Value;
-                Console.WriteLine($"Destination: {imgDest}");
                 return true;
             }
 
@@ -363,7 +363,6 @@ namespace AIDotChat
                                 break;
                             }
                             try {
-                                Console.WriteLine($"Destination: {imgDest}");
                                 _imageService.SetUser(_username);
                                 _imageService.PromptForPrompt();
                                 _imageService.PromptForSize();
