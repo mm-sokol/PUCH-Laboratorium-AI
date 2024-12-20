@@ -584,17 +584,17 @@ Wartości odnależć można w `Azure AI Foundry` > `Deployments` > `dall-e-3`
   <tr>
     <td>
       <div style="text-align: center;">
-        <img src="..\resources\results\image.png" alt="text" height="250"/>
+        <img src="screens\2_dalle_output\image.png" alt="text" height="250"/>
       </div>
     </td>
     <td>
       <div style="text-align: center;">
-        <img src="..\resources\results\DALL-E-3-image-1734660033.jpg" alt="text" height="250"/>
+        <img src="screens\2_dalle_output\DALL-E-3-image-1734660033.jpg" alt="text" height="250"/>
       </div>
     </td>
     <td>
       <div style="text-align: center;">
-        <img src="..\resources\results\DALL-E-3-image-1734660296.jpg" alt="text" height="250"/>
+        <img src="screens\2_dalle_output\DALL-E-3-image-1734660296.jpg" alt="text" height="250"/>
       </div>
     </td>
   </tr>

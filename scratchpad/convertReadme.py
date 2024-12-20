@@ -46,7 +46,7 @@ def process_markdown_file(md_file_path, out_path):
     for match in all_matches:
         image_path = match[1]  # Assuming the second element of the tuple is the image path
         converted_path = image_path[1].replace("/", "\\")
-        path = os.path.join("C:\\Users\\MS\\Desktop\\PUCH\\Laboratorium 2 AI\\AIDotChat\\doc-2", converted_path)  # Join base path with image path
+        path = os.path.join("C:\\Users\\MS\\Desktop\\PUCH\\Laboratorium 2 AI\\AIDotChat\\doc-3", converted_path)  # Join base path with image path
         print(f"Path ---> {path}")  # Output the full path
         if os.path.exists(path):
             print(f"Processing: {path}")
