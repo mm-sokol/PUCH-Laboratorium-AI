@@ -5,9 +5,10 @@ import argparse
 
 def convert_image_to_base64(image_path):
     """Convert an image to a base64 string."""
+    _, ext = os.path.splitext(image_path)
     with open(image_path, "rb") as image_file:
         base64_data = base64.b64encode(image_file.read()).decode("utf-8")
-    return f"data:image/png;base64,{base64_data}"
+    return f"data:image/{ext};base64,{base64_data}"
 
 def process_markdown_file(md_file_path, out_path):
     """Process the Markdown file and replace image paths with Base64 encoded data."""
@@ -48,6 +49,7 @@ def process_markdown_file(md_file_path, out_path):
         print(image_path)
         converted_path = image_path[1].replace("/", "\\")
         path = os.path.join("C:\\Users\\MS\\Desktop\\PUCH\\Laboratorium 2 AI\\AIDotChat\\doc-3", converted_path)  # Join base path with image path
+        
         print(f"Path ---> {path}")  # Output the full path
         if os.path.exists(path):
             print(f"Processing: {path}")
