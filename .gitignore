@@ -15,3 +15,5 @@ src/console/.env
 
 test/obj
 .venv
+.vscode
+.idea
