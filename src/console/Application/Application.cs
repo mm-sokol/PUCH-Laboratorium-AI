@@ -240,7 +240,7 @@ namespace AIDotChat
                             Console.WriteLine("Setting username");
                             if (words.Length > 1)
                             {
-                                this._username = words[1];
+                                _username = words[1];
                             }
                             else
                             {

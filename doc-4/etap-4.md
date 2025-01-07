@@ -42,5 +42,58 @@ Repozytorium: [github](https://github.com/mm-sokol/PUCH-Laboratorium-AI/tree/eta
 ```
 
 ## 1. Custom Speech
+W module korzystającym z `Custom Speech` celem będzie wykonanie 
+#### a. Założenie zasobu `Speech services`
+
+<table>
+    <tr>
+        <th>Portal -> </th>
+        <th>Stworzenie nowego zasobu -> </th>
+        <th>Konfiguracja Speech services</th>
+    </tr>
+    <tr>
+        <td><div style="text-align: center;">
+        <img src="screens\speech\1-setup\1-speech-service.png" width="100">
+        </div></td>
+        <td><div style="text-align: center;">
+        <img src="screens\speech\1-setup\2-create.png" height="120">
+        </div></td>
+        <td><div style="text-align: center;">
+        <img src="screens\speech\1-setup\3-create-details.png" height="120">
+        </div></td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>Potwierdzenie parametrów -> </th>
+        <th>Ekran utworzonego zasobu -> </th>
+        <th>Odnalezienie kluczy API</th>
+    </tr>
+    <tr>
+        <td><div style="text-align: center;">
+        <img src="screens\speech\1-setup\4-create-review.png" height="120">
+        </div></td>
+        <td><div style="text-align: center;">
+        <img src="screens\speech\1-setup\5-creation-complete.png" height="120">
+        </div></td>
+        <td><div style="text-align: center;">
+        <img src="screens\speech\1-setup\6-service-keys.png" height="120">
+        </div></td>
+    </tr>
+</table>
+
+#### b. Dodanie klucza api i endpointu do pliku konfiguracji
+```json
+// appsettings.json
+// ...
+  "AzureCustomSpeech":{
+    "Endpoint": "<Endpoint>",
+    "ApiKey": "<KEY 1>"
+  }
+}
+```
+
+#### c. Dodanie klucza api i endpointu do pliku konfiguracji 
 
 ## 2. Transkrypcja filmu z YouTube z tłumaczeniem
