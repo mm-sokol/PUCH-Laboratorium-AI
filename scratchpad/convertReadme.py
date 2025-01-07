@@ -19,8 +19,9 @@ def process_markdown_file(md_file_path, out_path):
     markdown_image_filenames_pattern = re.compile(r'!\[([^\]]+)\]\(([^)]+)\)')
     markdown_image_pattern = re.compile(r'!\[([^\]]+)\]\(([^)]+)\)')
     # Regex to match <img src="path/to/image.png" ... />
-    html_image_filenames_pattern = re.compile(r'<img src="(screens/.*?)" alt=".*?" width="\d*?"\s*\/>')
-    html_image_pattern = re.compile(r'<img src="(screens\/.*?)" alt="(.*?)" width="(\d*?)"\s*\/>')
+    # <img src="screens/1_doc_training/8_labels.png" alt="text" height="300"/>
+    html_image_filenames_pattern = re.compile(r'\s*<img src="(screens/.*?)"\s*alt=".*?"\s*height="\d*?"\s*\/>')
+    html_image_pattern = re.compile(r'\s*<img src="(screens/.*?)"\s*alt="(.*?)"\s*height="(\d*?)"\s*\/>')
 
     # Find all matches for Markdown-style images
     markdown_matches = markdown_image_filenames_pattern.findall(content)
@@ -62,7 +63,7 @@ def process_markdown_file(md_file_path, out_path):
             
             # Replace HTML-style paths
             content = html_image_pattern.sub(
-                lambda m: f'<img src="{base64_data}" alt="{m.group(1)}" width="{m.group(3)}"/>' if m.group(1) == image_path[1] else m.group(0), content
+                lambda m: f'<img src="{base64_data}" alt="{m.group(1)}" height="{m.group(3)}"/>' if m.group(1) == image_path[1] else m.group(0), content
             )
         else:
             print(f"Warning: Image not found at path {path}")

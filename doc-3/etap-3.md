@@ -10,6 +10,10 @@ DotChat
   - [Testy](#10-testy)
 
 2. [temat 7: Generowanie obrazów na podstawie opisu](#2-generowanie-obrazów-na-podstawie-opisu)
+  - [Model Dall-e](#1-uworzenie-wdrożenia-modelu-dall-e)
+  - [Konfiguracja dostępu](#2-dodanie-konfiguracji)
+  - [Integracja z chatem](#3-integracja-z-chatem)
+  - [Testy](#4-testowanie)
 
 Repozytorium: [github](https://github.com/mm-sokol/PUCH-Laboratorium-AI/tree/etap-3)
 
@@ -38,8 +42,8 @@ Crediting data sources:
   \summarize dir "<source path>" to "<dest path>"
   \summarize ... -v|--verbose - outputs summary to screen
 
-  \doc <filename> - [in the making]
-  \img <description> - [in the making]
+  \receipt <filename> - [in the making]
+  \dall-e <description> - [in the making]
   ...
 ```
 
