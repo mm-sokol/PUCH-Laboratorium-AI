@@ -13,6 +13,10 @@ Raport z wykonania projektu: [etap-2.md](doc-2/etap-2.md)
 Znajduje się na branchu `etap-3`</br>
 Raport z wykonania projektu: [etap-3.md](doc-3/etap-3.md)
 
+### Etap 4
+Znajduje się na branchu `etap-4`</br>
+Raport z wykonania projektu: [etap-3.md](doc-4/etap-4.md)
+
 ### Opis 
 `temat 13` Tworzenie interfejsu chatbotowego w C#<br>
 Zadanie polega na stworzeniu interfejsu chatbota w C# korzystjącego z API OpenAI. Program powinien pozwalać na prowadzenie wieloetapowej rozmowy z użytkownikiem w _konsoli_.
