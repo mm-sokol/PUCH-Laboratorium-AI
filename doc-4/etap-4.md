@@ -99,7 +99,9 @@ W module korzystającym z `Custom Speech` celem będzie wykonanie
 dotnet add package Microsoft.CognitiveServices.Speech
 ```
 
-#### d. 
+#### d. Projekt Custom Speech
+Przydatne zasoby: [custom speech overview](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/custom-speech-overview), [pricing](https://azure.microsoft.com/en-us/pricing/details/cognitive-services/speech-services/)
+
 - Przejście do `Speech studio`, następnie do `AI Studio`, wybranie `Use services`
 ![alt text](screens/speech/1-setup/7-go_to-studio.png)
 ![alt text](screens/speech/1-setup/8-ai-studio.png)
@@ -113,9 +115,34 @@ dotnet add package Microsoft.CognitiveServices.Speech
 ![alt text](screens/speech/1-setup/12-review.png)
 ![alt text](screens/speech/1-setup/13-resource-creation.png)
 
-#### e. 
-#### f. 
-#### g. 
+#### e. Przygotowanie `Custom speech` 
+
+- Przejście do `Playgrounds`, wybranie `Custom speech` i `Fine-tune seech`
+<table>
+    <tr>
+        <td><div style="text-align: center;">
+        <img src="screens\speech\2-setup\1-playgrounds.png" height="100">
+        </div></td>
+        <td><div style="text-align: center;">
+        <img src="screens\speech\2-setup\2-custom.png" height="120">
+        </div></td>
+        <td><div style="text-align: center;">
+        <img src="screens\speech\2-setup\3-fine-tune.png" height="120">
+        </div></td>
+    </tr>
+</table>
+
+#### f. Utworzenie serwisu `Custom speech`
+![text](screens/speech/2-setup/4-speech-to-text.png)
+![alt text](screens/speech/2-setup/5-basic-info.png)
+
+#### g. Przygotowanie danych treningowych
+
+Źródło: [voice datasets](https://github.com/jim-schwoebel/voice_datasets) > [spoken Wikipedia Corpora](https://nats.gitlab.io/swc/)
+
+
+
 #### h. 
+
 
 ## 2. Transkrypcja filmu z YouTube z tłumaczeniem
