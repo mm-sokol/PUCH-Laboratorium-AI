@@ -89,11 +89,20 @@ W module korzystającym z `Custom Speech` celem będzie wykonanie
 // ...
   "AzureCustomSpeech":{
     "Endpoint": "<Endpoint>",
-    "ApiKey": "<KEY 1>"
+    "ApiKey": "<KEY 1>",
+    "Region": "westeurope"
   }
 }
 ```
+#### b. Dodanie zależności Cognitive Speech SDK
+```bash
+dotnet add package Microsoft.CognitiveServices.Speech
+```
 
-#### c. Dodanie klucza api i endpointu do pliku konfiguracji 
+#### d. 
+#### e. 
+#### f. 
+#### g. 
+#### h. 
 
 ## 2. Transkrypcja filmu z YouTube z tłumaczeniem
