@@ -56,11 +56,11 @@ namespace AzureCustomSpeech
       var result = await recogniser.RecognizeOnceAsync();
     }
 
-    // public async Task TextToAudio(Language srcLang, Language tgtLang) {
+    public async Task TextToAudio(Language srcLang, Language tgtLang) {
 
-    //   _speechTranslationConfig.SpeechSynthesisLanguage = LanguageDescription.Get(srcLang);
-    //   _speechTranslationConfig.SpeechSynthesisVoiceName = 
-    // }
+      _speechTranslationConfig.SpeechSynthesisLanguage = LanguageDescription.Get(srcLang);
+      _speechTranslationConfig.SpeechSynthesisVoiceName = 
+    }
   }
 
   

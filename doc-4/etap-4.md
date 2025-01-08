@@ -100,6 +100,19 @@ dotnet add package Microsoft.CognitiveServices.Speech
 ```
 
 #### d. 
+- Przejście do `Speech studio`, następnie do `AI Studio`, wybranie `Use services`
+![alt text](screens/speech/1-setup/7-go_to-studio.png)
+![alt text](screens/speech/1-setup/8-ai-studio.png)
+
+- Stworzenie projektu (Create new project)
+![alt text](screens/speech/1-setup/9-create-project.png)
+![alt text](screens/speech/1-setup/10-customize.png)
+
+- Konfiguracja projektu
+![alt text](screens/speech/1-setup/11-create-hub.png)
+![alt text](screens/speech/1-setup/12-review.png)
+![alt text](screens/speech/1-setup/13-resource-creation.png)
+
 #### e. 
 #### f. 
 #### g. 
