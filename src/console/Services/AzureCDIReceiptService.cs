@@ -269,7 +269,24 @@ namespace AzureDocumentAI
 
     private void SaveReceiptAsJson(AnalyzeResult result, string filename)
     {
-      string json = JsonConvert.SerializeObject(result, Formatting.Indented);
+      var receipt = new {
+        Documents = new List<object>()
+      };
+
+      foreach (AnalyzedDocument doc in result.Documents) {
+        var document = new Dictionary<string, object>();
+        foreach (KeyValuePair<string, DocumentField> field in doc.Fields) {
+          if (field.Value != null && field.Value.Content != null)
+          {
+              document[field.Key] = field.Value.Content;
+          }
+        }
+        receipt.Documents.Add(document);
+      }
+
+
+      string json = JsonConvert.SerializeObject(receipt, Formatting.Indented);
+      Console.WriteLine(json);
       try
       {
         File.WriteAllText(filename, json);
